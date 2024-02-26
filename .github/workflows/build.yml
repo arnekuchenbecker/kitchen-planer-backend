@@ -24,7 +24,7 @@ jobs:
       - name: Allow execution of gradle
         run: chmod +x ./gradlew
       - name: Build all classes
-        run: ./gradlew build compileDebugUnitTestSources compileReleaseUnitTestSources -x test
+        run: ./gradlew build testClasses -x test
 
   test:
     name: Run Unit Tests
