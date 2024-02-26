@@ -50,3 +50,5 @@ jobs:
       - name: Build Report
         if: success() || failure()
         uses: scacap/action-surefire-report@v1.7.2
+        with: 
+          report_paths: '**/build/test-results/test/TEST-*.xml'
