@@ -24,7 +24,7 @@ jobs:
       - name: Allow execution of gradle
         run: chmod +x ./gradlew
       - name: Build all classes
-        run: ./gradlew build compileDebugUnitTestSources compileReleaseUnitTestSources -x test
+        run: ./gradlew build testClasses -x test
 
   test:
     name: Run Unit Tests
@@ -47,13 +47,6 @@ jobs:
         run: chmod +x ./gradlew
       - name: Run Unit Tests
         run: ./gradlew test --continue
-      - name: Build Report Debug Tests
+      - name: Build Report
         if: success() || failure()
         uses: scacap/action-surefire-report@v1.7.2
-        with: 
-          report_paths: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
-      - name: Build Report Release Tests
-        if: success() || failure()
-        uses: scacap/action-surefire-report@v1.7.2
-        with: 
-          report_paths: '**/build/test-results/testReleaseUnitTest/TEST-*.xml'
