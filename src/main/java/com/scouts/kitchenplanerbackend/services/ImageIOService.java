@@ -17,6 +17,7 @@
 
 package com.scouts.kitchenplanerbackend.services;
 
+import com.scouts.kitchenplanerbackend.exceptions.ImageFileNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,6 +46,54 @@ public class ImageIOService {
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // TODO - store fileName to the database for the correct recipe
+    }
+
+    public byte[] getProjectImage(Long projectID) throws ImageFileNotFoundException, IOException {
+        String imageName = "TODO"; // TODO - get fileName from database for the correct project
+
+        Path filePath = getFilePath(imageName, PROJECT_DIRECTORY);
+
+        if (Files.exists(filePath)) {
+            return Files.readAllBytes(filePath);
+        } else {
+            throw new ImageFileNotFoundException(imageName, "project");
+        }
+    }
+
+    public byte[] getRecipeImage(Long recipeID) throws ImageFileNotFoundException, IOException {
+        String imageName = "TODO"; // TODO - get fileName from database for the correct recipe
+
+        Path filePath = getFilePath(imageName, RECIPE_DIRECTORY);
+
+        if (Files.exists(filePath)) {
+            return Files.readAllBytes(filePath);
+        } else {
+            throw new ImageFileNotFoundException(imageName, "recipe");
+        }
+    }
+
+    public void deleteProjectImage(Long projectID) throws ImageFileNotFoundException, IOException {
+        String imageName = "TODO"; // TODO - get fileName from database for the correct project
+
+        Path filePath = getFilePath(imageName, PROJECT_DIRECTORY);
+
+        if (Files.exists(filePath)) {
+            Files.delete(filePath);
+        } else {
+            throw new ImageFileNotFoundException(imageName, "project");
+        }
+    }
+
+    public void deleteRecipeImage(Long recipeID) throws ImageFileNotFoundException, IOException {
+        String imageName = "TODO"; // TODO - get fileName from database for the correct recipe
+
+        Path filePath = getFilePath(imageName, RECIPE_DIRECTORY);
+
+        if (Files.exists(filePath)) {
+            Files.delete(filePath);
+        } else {
+            throw new ImageFileNotFoundException(imageName, "recipe");
+        }
     }
 
     private Path getFilePath(String name, String directory) throws IOException {
