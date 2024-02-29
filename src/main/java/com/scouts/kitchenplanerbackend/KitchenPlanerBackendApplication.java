@@ -24,5 +24,4 @@ public class KitchenPlanerBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KitchenPlanerBackendApplication.class, args);
 	}
-
 }
