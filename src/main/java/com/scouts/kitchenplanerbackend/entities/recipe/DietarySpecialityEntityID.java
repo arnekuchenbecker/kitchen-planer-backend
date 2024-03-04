@@ -16,12 +16,19 @@
 
 package com.scouts.kitchenplanerbackend.entities.recipe;
 
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
 public class DietarySpecialityEntityID implements Serializable {
-    private RecipeEntity recipe;
+    private long recipe;
     private String speciality;
 }

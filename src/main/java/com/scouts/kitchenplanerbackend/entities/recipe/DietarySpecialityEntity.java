@@ -26,16 +26,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 @Getter
 @Setter
 @Entity
 @IdClass(DietarySpecialityEntityID.class)
 public class DietarySpecialityEntity {
-    @Id
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
+    @Id
     private RecipeEntity recipe;
     @Id
     private String speciality;

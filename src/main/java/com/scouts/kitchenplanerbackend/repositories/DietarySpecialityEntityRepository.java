@@ -19,7 +19,6 @@ package com.scouts.kitchenplanerbackend.repositories;
 import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Collection;
 

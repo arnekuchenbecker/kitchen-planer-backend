@@ -32,7 +32,7 @@ import jakarta.persistence.Id;
 public class InstructionEntity {
 
     @Id
-    private int order;
+    private int stepNumber;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     @Id

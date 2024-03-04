@@ -28,17 +28,12 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
 public class RecipeEntity {
-    @ToString.Include
     @Id
     @Column(nullable = false)
     private Long id;
-    @ToString.Include
     private String name;
-
     private String imageURI;
-    @ToString.Include
     private String description;
-    @ToString.Include
     @Column(nullable = false)
     private int numberOfPeople;
 }

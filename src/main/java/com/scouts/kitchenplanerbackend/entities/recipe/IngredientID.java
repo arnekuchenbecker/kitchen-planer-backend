@@ -17,12 +17,19 @@
 package com.scouts.kitchenplanerbackend.entities.recipe;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
 public class IngredientID implements Serializable {
-    private RecipeEntity recipe;
+    private long recipe;
     private String name;
     private String ingredientGroup;
 }

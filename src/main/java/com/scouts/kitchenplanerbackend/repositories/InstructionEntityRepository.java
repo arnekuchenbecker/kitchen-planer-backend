@@ -18,12 +18,11 @@ package com.scouts.kitchenplanerbackend.repositories;
 
 import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.InstructionID;
-import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
 
 public interface InstructionEntityRepository extends JpaRepository<InstructionEntity, InstructionID> {
 
-    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByOrder(Long recipeId);
+    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(Long recipeId);
 }
