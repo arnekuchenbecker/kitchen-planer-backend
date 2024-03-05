@@ -14,16 +14,11 @@
  * GNU General Public License for more details.
  *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package com.scouts.kitchenplanerbackend.exceptions;
 
-@SpringBootApplication
-public class KitchenPlanerBackendApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(KitchenPlanerBackendApplication.class, args);
-	}
-
+public class ImageFileNotFoundException extends Exception {
+    public ImageFileNotFoundException(String fileName, String usedFor) {
+        super("Could not find any image for a "+ usedFor +" with name " + fileName + ".");
+    }
 }
