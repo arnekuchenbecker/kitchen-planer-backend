@@ -23,8 +23,18 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
+/**
+ * Repository that provides all possible meals for projects.
+ * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> {
 
+    /**
+     * Provides all meals for project
+     *
+     * @param id of the  project
+     * @return all meals for the project
+     */
     @Query("select m from MealEntity m where m.project.id = ?1")
     Collection<MealEntity> findByProject_Id(Long id);
 }

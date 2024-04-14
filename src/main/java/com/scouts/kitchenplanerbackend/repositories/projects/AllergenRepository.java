@@ -24,11 +24,30 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
+/**
+ * Repository to interact with the allergen table, which contains all allergens and their reference to
+ * their allergen person.
+ * <p>
+ * It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface AllergenRepository extends JpaRepository<AllergenEntity, AllergenEntityID> {
 
+    /**
+     * Provides all allergens which are relevant for a given project
+     *
+     * @param id of the requested project
+     * @return all allergens
+     */
     @Query("select a from AllergenEntity a where a.project.id = :id")
     Collection<AllergenEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Returns all allergens for an allergen person in a project
+     *
+     * @param projectId the id of the requested project
+     * @param name      the name of the allergen person
+     * @return all allergens of the allergen person
+     */
     @Query("select a from AllergenEntity a where a.project.id = :projectId and a.allergenPerson.name = :name")
     Collection<AllergenEntity> findByProject_IdAndAllergenPerson_Name(@Param("projectId") long projectId,
                                                                       @Param("name") String name);

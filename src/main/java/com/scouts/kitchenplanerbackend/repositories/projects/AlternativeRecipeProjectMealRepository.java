@@ -23,10 +23,21 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
+/**
+ * Repository which provides access to the alternative recipes for a meal slot (a meal on a date).
+ * Note that a meal slot can have multiple alternative recipes.
+ * <p>
+ * It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface AlternativeRecipeProjectMealRepository
         extends JpaRepository<AlternativeRecipeProjectMeal, AlternativeRecipeProjectMealID> {
 
-
+    /**
+     * Provides all alternative recipes for a project
+     *
+     * @param id of the project
+     * @return all alternative recipes
+     */
     @Query("select a from AlternativeRecipeProjectMeal a where a.project.id = ?1")
     Collection<AlternativeRecipeProjectMeal> findByProject_Id(Long id);
 }

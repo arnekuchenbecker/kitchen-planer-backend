@@ -23,8 +23,17 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
+/**
+ * Repository that provides how the amount of persons change during a project.
+ * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, ProjectEntity> {
 
+    /**
+     * Provides all changes for a project.
+     * @param id of the requested project
+     * @return all changes.
+     */
     @Query("select p from PersonNumberChangeEntity p where p.project.id = ?1")
     Collection<PersonNumberChangeEntity> findByProject_Id(Long id);
 }

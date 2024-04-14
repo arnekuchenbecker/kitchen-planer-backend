@@ -20,12 +20,24 @@ import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
+/**
+ * repository that provides CRUD methods to interact with the allergen person table.
+ * It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEntity, AllergenPersonEntityID> {
 
-    @Query("select a from AllergenPersonEntity a where a.project.id = ?1")
-    Collection<AllergenPersonEntity> findByProject_Id(Long id);
+    /**
+     * Provides all allergen persons who belong to a specified project
+     *
+     * @param id of the requested project
+     * @return all allergen persons
+     */
+    @Query("select a from AllergenPersonEntity a where a.project.id = :id")
+    Collection<AllergenPersonEntity> findByProject_Id(@Param("id") long id);
+
 
 }

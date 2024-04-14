@@ -23,7 +23,18 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
+/**
+ * Repository that provides access to the unit conversion for a project
+ * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface UnitConversionRepository extends JpaRepository<UnitConversionEntity, UnitConversionID> {
+
+    /**
+     * provides all unit conversions for a project
+     *
+     * @param id of the project
+     * @return all requested unit conversions
+     */
     @Query("select u from UnitConversionEntity u where u.project.id = ?1")
     Collection<UnitConversionEntity> findByProject_Id(Long id);
 }

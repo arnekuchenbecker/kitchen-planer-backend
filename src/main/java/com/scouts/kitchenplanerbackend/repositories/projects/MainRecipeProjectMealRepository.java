@@ -23,8 +23,19 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
+/**
+ * Repository that provides access to the main recipe of a meal slot.
+ * Note that there is at most one main recipe per meal slot.
+ * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ */
 public interface MainRecipeProjectMealRepository
         extends JpaRepository<MainRecipeProjectMealEntity, MainRecipeProjectMealID> {
+    /**
+     * Provides all main recipes for a project
+     *
+     * @param id of the project
+     * @return all requested main recipes
+     */
     @Query("select m from MainRecipeProjectMealEntity m where m.project.id = ?1")
     Collection<MainRecipeProjectMealEntity> findByProject_Id(Long id);
 }
