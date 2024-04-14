@@ -33,7 +33,8 @@ public class AllergenEntity {
     @ManyToOne
     private ProjectEntity project;
     @Id
-    private String name;
+    @ManyToOne
+    private AllergenPersonEntity name;
     @Id
     private String allergen;
     private boolean traces;

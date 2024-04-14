@@ -16,6 +16,7 @@
 
 package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
+import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,6 +31,6 @@ import java.io.Serializable;
 @Setter
 public class AllergenEntityID implements Serializable {
     private ProjectEntity project;
-    private String name;
+    private AllergenPersonEntity name;
     private String allergen;
 }

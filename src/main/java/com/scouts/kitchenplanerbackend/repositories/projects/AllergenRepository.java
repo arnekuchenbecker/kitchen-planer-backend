@@ -19,6 +19,12 @@ package com.scouts.kitchenplanerbackend.repositories.projects;
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Collection;
 
 public interface AllergenRepository extends JpaRepository<AllergenEntity, AllergenEntityID> {
+
+    @Query("select a from AllergenEntity a where a.project.id = ?1")
+    Collection<AllergenEntity> findByProject_Id(Long id);
 }
