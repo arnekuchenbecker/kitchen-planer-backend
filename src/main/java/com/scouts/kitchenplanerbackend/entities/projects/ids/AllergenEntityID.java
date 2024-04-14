@@ -25,6 +25,9 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity}
+ */
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter

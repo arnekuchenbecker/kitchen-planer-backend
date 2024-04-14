@@ -19,8 +19,6 @@ package com.scouts.kitchenplanerbackend.entities.projects.ids;
 import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +27,9 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal}
+ */
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter

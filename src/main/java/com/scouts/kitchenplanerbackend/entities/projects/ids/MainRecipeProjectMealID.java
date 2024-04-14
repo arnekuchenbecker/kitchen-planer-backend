@@ -26,6 +26,9 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.MainRecipeProjectMealEntity}
+ */
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
