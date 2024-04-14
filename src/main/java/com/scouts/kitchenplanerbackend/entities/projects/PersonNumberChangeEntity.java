@@ -14,27 +14,31 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@Table(name = "person_number_change")
+public class PersonNumberChangeEntity {
     @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @ManyToOne
+    private ProjectEntity project;
+
+    private Date date;
+
+    @ManyToOne
+    private MealEntity meal;
+
+    private int differenceBefore;
+
 }
-
-
