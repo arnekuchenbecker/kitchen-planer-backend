@@ -16,11 +16,14 @@
 
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
+import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -32,5 +35,27 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     @Query("select p from ProjectEntity p inner join p.participants participants where participants.name = :user")
     Collection<ProjectStubDTO> findByParticipants_Name(@Param("user") String user);
+
+    @Transactional
+    @Modifying
+    @Query("update ProjectEntity p set p.participants = :participants where p.id = :id")
+    void updateParticipantsById(@Param("participants") Collection<UserEntity> participants, @Param("id") Long id);
+
+   @Query("select p from ProjectEntity p where p.id = :id")
+   Collection<UserEntity> findParticipantsById(@Param("id") long id);
+
+   @Transactional
+   default void joinProject(UserEntity user, long id){
+       Collection<UserEntity> users = findParticipantsById(id);
+       users.add(user);
+       updateParticipantsById(users,id);
+   }
+
+    @Transactional
+    default void leaveProject(UserEntity user, long id){
+        Collection<UserEntity> users = findParticipantsById(id);
+        users.remove(user);
+        updateParticipantsById(users,id);
+    }
 
 }
