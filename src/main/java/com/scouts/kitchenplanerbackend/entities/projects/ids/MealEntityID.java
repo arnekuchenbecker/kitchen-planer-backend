@@ -14,8 +14,9 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.projects;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +24,12 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+
 @EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
-public class AllergenEntityID implements Serializable {
+public class MealEntityID implements Serializable {
     private ProjectEntity project;
     private String name;
-    private String allergen;
 }

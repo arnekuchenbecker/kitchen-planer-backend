@@ -16,6 +16,7 @@
 
 package com.scouts.kitchenplanerbackend.entities.projects;
 
+import com.scouts.kitchenplanerbackend.entities.projects.ids.MealEntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;

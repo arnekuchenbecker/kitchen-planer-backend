@@ -14,36 +14,23 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.projects;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
-import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.io.Serializable;
 
+@EqualsAndHashCode
+@NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "allergen_person_entity")
-@IdClass(AllergenPersonEntityID.class)
-public class AllergenPersonEntity {
-
-    @Id
-    private String name;
-    @Id
-    @ManyToOne
+public class UnitConversionID implements Serializable {
     private ProjectEntity project;
-    private Date arrivalDate;
-    private Date departureDate;
-    @ManyToOne
-    private MealEntity arrivalMeal;
-    @ManyToOne
-    private MealEntity departureMeal;
-
+    private String sourceUnit;
+    private String destinationUnit;
+    private String ingredient;
 }

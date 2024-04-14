@@ -16,34 +16,30 @@
 
 package com.scouts.kitchenplanerbackend.entities.projects;
 
-import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.UnitConversionID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "allergen_person_entity")
-@IdClass(AllergenPersonEntityID.class)
-public class AllergenPersonEntity {
-
+@Table(name = "unit_conversion")
+@IdClass(UnitConversionID.class)
+public class UnitConversionEntity {
     @Id
-    private String name;
-    @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private ProjectEntity project;
-    private Date arrivalDate;
-    private Date departureDate;
-    @ManyToOne
-    private MealEntity arrivalMeal;
-    @ManyToOne
-    private MealEntity departureMeal;
-
+    @Id
+    private String sourceUnit;
+    @Id
+    private String destinationUnit;
+    @Id
+    private String ingredient;
 }

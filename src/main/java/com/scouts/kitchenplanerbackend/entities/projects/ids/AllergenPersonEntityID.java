@@ -14,8 +14,9 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.projects;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

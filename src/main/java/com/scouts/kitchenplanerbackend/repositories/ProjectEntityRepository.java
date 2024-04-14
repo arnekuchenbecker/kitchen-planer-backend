@@ -14,21 +14,10 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.projects;
+package com.scouts.kitchenplanerbackend.repositories;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.io.Serializable;
-
-
-@EqualsAndHashCode
-@NoArgsConstructor
-@Getter
-@Setter
-public class MealEntityID implements Serializable {
-    private ProjectEntity project;
-    private String name;
+public interface ProjectEntityRepository extends JpaRepository<ProjectEntity, Long> {
 }
