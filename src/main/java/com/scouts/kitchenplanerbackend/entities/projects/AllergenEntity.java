@@ -34,7 +34,7 @@ public class AllergenEntity {
     private ProjectEntity project;
     @Id
     @ManyToOne
-    private AllergenPersonEntity name;
+    private AllergenPersonEntity allergenPerson;
     @Id
     private String allergen;
     private boolean traces;

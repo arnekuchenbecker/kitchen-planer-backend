@@ -20,11 +20,18 @@ import com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
 public interface AllergenRepository extends JpaRepository<AllergenEntity, AllergenEntityID> {
 
-    @Query("select a from AllergenEntity a where a.project.id = ?1")
-    Collection<AllergenEntity> findByProject_Id(Long id);
+    @Query("select a from AllergenEntity a where a.project.id = :id")
+    Collection<AllergenEntity> findByProject_Id(@Param("id") long id);
+
+    @Query("select a from AllergenEntity a where a.project.id = :projectId and a.allergenPerson.name = :name")
+    Collection<AllergenEntity> findByProject_IdAndAllergenPerson_Name(@Param("projectId") long projectId,
+                                                                      @Param("name") String name);
+
+
 }

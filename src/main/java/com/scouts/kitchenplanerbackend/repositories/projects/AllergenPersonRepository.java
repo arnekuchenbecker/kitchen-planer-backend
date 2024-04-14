@@ -27,4 +27,5 @@ public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEn
 
     @Query("select a from AllergenPersonEntity a where a.project.id = ?1")
     Collection<AllergenPersonEntity> findByProject_Id(Long id);
+
 }
