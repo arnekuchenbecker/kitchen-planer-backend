@@ -19,6 +19,12 @@ package com.scouts.kitchenplanerbackend.repositories.projects;
 import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Collection;
 
 public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, ProjectEntity> {
+
+    @Query("select p from PersonNumberChangeEntity p where p.project.id = ?1")
+    Collection<PersonNumberChangeEntity> findByProject_Id(Long id);
 }

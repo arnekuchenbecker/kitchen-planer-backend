@@ -19,6 +19,12 @@ package com.scouts.kitchenplanerbackend.repositories.projects;
 import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.MealEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Collection;
 
 public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> {
+
+    @Query("select m from MealEntity m where m.project.id = ?1")
+    Collection<MealEntity> findByProject_Id(Long id);
 }
