@@ -14,11 +14,16 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.recipes;
 
-import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntity;
-import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.IngredientEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.IngredientID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, ProjectEntity> {
+import java.util.Collection;
+
+public interface IngredientRepository extends JpaRepository<IngredientEntity, IngredientID> {
+
+    Collection<IngredientEntity> getIngredientEntitiesByRecipeId(long recipeId);
+
 }

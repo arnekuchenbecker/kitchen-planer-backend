@@ -14,12 +14,15 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.recipes;
 
-import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;
-import com.scouts.kitchenplanerbackend.entities.projects.ids.AlternativeRecipeProjectMealID;
+import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.InstructionID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AlternativeRecipeProjectMealRepository
-        extends JpaRepository<AlternativeRecipeProjectMeal, AlternativeRecipeProjectMealID> {
+import java.util.Collection;
+
+public interface InstructionRepository extends JpaRepository<InstructionEntity, InstructionID> {
+
+    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(Long recipeId);
 }

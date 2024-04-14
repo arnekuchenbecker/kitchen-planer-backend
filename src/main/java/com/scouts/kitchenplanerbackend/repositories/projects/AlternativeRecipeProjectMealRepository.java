@@ -14,16 +14,12 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.projects;
 
-import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntity;
-import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntityID;
+import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.AlternativeRecipeProjectMealID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
-
-public interface DietarySpecialityEntityRepository
-        extends JpaRepository<DietarySpecialityEntity, DietarySpecialityEntityID> {
-
-    Collection<DietarySpecialityEntity> getDietarySpecialityEntitiesByRecipeId(long recipeId);
+public interface AlternativeRecipeProjectMealRepository
+        extends JpaRepository<AlternativeRecipeProjectMeal, AlternativeRecipeProjectMealID> {
 }

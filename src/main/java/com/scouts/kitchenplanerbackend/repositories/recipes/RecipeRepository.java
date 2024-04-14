@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.recipes;
 
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntityDTO;
@@ -23,7 +23,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface RecipeEntityRepository extends JpaRepository<RecipeEntity, Long> {
+public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Query("select r.imageURI  from RecipeEntity r where r.id = :id")
     String getImageURIById(@Param("id") long id);

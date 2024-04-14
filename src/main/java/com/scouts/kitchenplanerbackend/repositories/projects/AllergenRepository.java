@@ -14,11 +14,11 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.projects;
 
-import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
-import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
+import com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEntity, AllergenPersonEntityID> {
+public interface AllergenRepository extends JpaRepository<AllergenEntity, AllergenEntityID> {
 }

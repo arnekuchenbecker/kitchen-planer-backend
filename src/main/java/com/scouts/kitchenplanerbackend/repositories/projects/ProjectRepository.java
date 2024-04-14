@@ -14,12 +14,23 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.repositories.projects;
 
-import com.scouts.kitchenplanerbackend.entities.projects.MainRecipeProjectMealEntity;
-import com.scouts.kitchenplanerbackend.entities.projects.ids.MainRecipeProjectMealID;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface MainRecipeProjectMealRepository
-        extends JpaRepository<MainRecipeProjectMealEntity, MainRecipeProjectMealID> {
+import java.util.Collection;
+
+public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
+
+
+    @Query("select p.imageUri from ProjectEntity p where p.id = :id")
+    String getImageURIById(@Param("id") long id);
+
+    @Query("select p from ProjectEntity p inner join p.participants participants where participants.name = :user")
+    Collection<ProjectStubDTO> findByParticipants_Name(@Param("user") String user);
+
 }
