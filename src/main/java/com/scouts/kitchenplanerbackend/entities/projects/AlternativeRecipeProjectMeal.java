@@ -29,6 +29,10 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * This entity represents an alternative recipe for a specified meal slot in a project. Note that there could be
+ * multiple alternative recipes for one meal slot.
+ */
 @Getter
 @Setter
 @Entity
@@ -37,7 +41,7 @@ import java.util.Date;
 public class AlternativeRecipeProjectMeal {
     @Id
     @ManyToOne
-   private ProjectEntity project;
+    private ProjectEntity project;
     @Id
     @ManyToOne
     private MealEntity meal;

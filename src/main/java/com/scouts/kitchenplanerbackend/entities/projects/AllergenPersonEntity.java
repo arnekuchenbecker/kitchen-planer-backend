@@ -27,6 +27,9 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * This class represents an allergen person for a specific project and determines when this person arrives and leaves.
+ */
 @Getter
 @Setter
 @Entity

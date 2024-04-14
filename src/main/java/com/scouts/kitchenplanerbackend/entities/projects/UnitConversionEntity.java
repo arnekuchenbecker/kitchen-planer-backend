@@ -26,6 +26,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents how the source unit can be converted in the destination unit respecting the ingredient.
+ */
 @Getter
 @Setter
 @Entity
@@ -42,4 +45,6 @@ public class UnitConversionEntity {
     private String destinationUnit;
     @Id
     private String ingredient;
+
+    private double factor;
 }

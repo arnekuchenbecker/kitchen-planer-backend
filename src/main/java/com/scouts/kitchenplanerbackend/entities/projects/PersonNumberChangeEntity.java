@@ -25,6 +25,9 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * Represents how many persons arrive/leave before a specified meal slot (meal on a day)
+ */
 @Getter
 @Setter
 @Entity

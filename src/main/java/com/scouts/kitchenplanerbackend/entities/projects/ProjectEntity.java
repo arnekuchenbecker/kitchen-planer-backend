@@ -30,6 +30,9 @@ import lombok.Setter;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * Represents the basic information about a project including all persons who are part of it.
+ */
 @Getter
 @Setter
 @Entity

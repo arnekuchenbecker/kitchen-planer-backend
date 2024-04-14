@@ -28,6 +28,9 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * Represents a main recipe for a specified meal slot. Note that there is at most one main recipe per meal slot.
+ */
 @Getter
 @Setter
 @Entity

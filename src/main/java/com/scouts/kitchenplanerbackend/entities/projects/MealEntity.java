@@ -24,6 +24,9 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents a meal and and their relative order to other meals. Each meal slot belongs to one of the meals.
+ */
 @Getter
 @Setter
 @Entity

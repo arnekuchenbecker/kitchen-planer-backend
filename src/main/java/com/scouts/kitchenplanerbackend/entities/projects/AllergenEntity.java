@@ -24,6 +24,9 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This entity represents an allergen from an {@link AllergenPersonEntity} in a {@link ProjectEntity}
+ */
 @Getter
 @Setter
 @Entity
