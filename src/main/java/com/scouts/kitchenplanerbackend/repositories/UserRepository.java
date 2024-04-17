@@ -19,5 +19,9 @@ package com.scouts.kitchenplanerbackend.repositories;
 import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * </p>
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ */
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 }

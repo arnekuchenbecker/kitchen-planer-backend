@@ -28,7 +28,7 @@ import java.util.Collection;
  * Repository which provides access to the alternative recipes for a meal slot (a meal on a date).
  * Note that a meal slot can have multiple alternative recipes.
  * <p>
- * It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
 public interface AlternativeRecipeProjectMealRepository
         extends JpaRepository<AlternativeRecipeProjectMeal, AlternativeRecipeProjectMealID> {

@@ -27,7 +27,7 @@ import java.util.Collection;
 /**
  * Repository that provides access to the main recipe of a meal slot.
  * Note that there is at most one main recipe per meal slot.
- * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ * <p>  It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
 public interface MainRecipeProjectMealRepository
         extends JpaRepository<MainRecipeProjectMealEntity, MainRecipeProjectMealID> {

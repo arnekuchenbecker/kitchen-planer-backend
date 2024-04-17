@@ -26,7 +26,8 @@ import java.util.Collection;
 
 /**
  * repository that provides CRUD methods to interact with the allergen person table.
- * It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ * </p>
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
 public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEntity, AllergenPersonEntityID> {
 

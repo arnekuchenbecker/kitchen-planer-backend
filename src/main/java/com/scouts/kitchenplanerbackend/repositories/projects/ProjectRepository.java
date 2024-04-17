@@ -30,7 +30,7 @@ import java.util.Collection;
 /**
  * Provides access to the general information of a project and contains the possibility to let people join and leave it.
  *
- * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ * <p> It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 

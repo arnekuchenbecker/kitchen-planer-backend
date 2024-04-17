@@ -26,7 +26,7 @@ import java.util.Collection;
 
 /**
  * Repository that provides how the amount of persons change during a project.
- * <p> It contains the basic CRUD methods, like adding, deleting and finding without that they are written down.
+ * <p> It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
 public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, ProjectEntity> {
 
