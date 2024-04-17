@@ -45,19 +45,19 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     String getImageURIById(@Param("id") long id);
 
     /**
-     * Provides all projects stubs from a participant
+     * Provides all projects stubs where the given participant is part of
      *
-     * @param user the user for whom the project stubs are created
+     * @param user who is participating in all of the requested projects
      * @return all projects stubs
      */
     @Query("select p from ProjectEntity p inner join p.participants participants where participants.name = :user")
     Collection<ProjectStubDTO> findByParticipants_Name(@Param("user") String user);
 
     /**
-     * Signalises if a person participates in a project
+     * Queries if a person participates in a project
      *
      * @param project     id of the project
-     * @param participant or person who might be participation
+     * @param participant or person who might be participating
      * @return whether the participant is really participating
      */
     @Query("""

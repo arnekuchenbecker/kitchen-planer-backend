@@ -20,6 +20,7 @@ import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
+ * This repository provides access to all users which might be part of a project.
  * </p>
  * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
