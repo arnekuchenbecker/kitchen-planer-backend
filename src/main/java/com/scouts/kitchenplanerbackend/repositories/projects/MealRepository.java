@@ -20,6 +20,7 @@ import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.MealEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
@@ -35,6 +36,6 @@ public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> 
      * @param id of the  project
      * @return all meals for the project
      */
-    @Query("select m from MealEntity m where m.project.id = ?1")
-    Collection<MealEntity> findByProject_Id(Long id);
+    @Query("select m from MealEntity m where m.project.id = :id")
+    Collection<MealEntity> findByProject_Id(@Param("id") long id);
 }

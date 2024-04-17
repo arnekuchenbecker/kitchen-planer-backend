@@ -20,6 +20,7 @@ import com.scouts.kitchenplanerbackend.entities.projects.UnitConversionEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.UnitConversionID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
@@ -35,6 +36,6 @@ public interface UnitConversionRepository extends JpaRepository<UnitConversionEn
      * @param id of the project
      * @return all requested unit conversions
      */
-    @Query("select u from UnitConversionEntity u where u.project.id = ?1")
-    Collection<UnitConversionEntity> findByProject_Id(Long id);
+    @Query("select u from UnitConversionEntity u where u.project.id = :id")
+    Collection<UnitConversionEntity> findByProject_Id(@Param("id") long id);
 }

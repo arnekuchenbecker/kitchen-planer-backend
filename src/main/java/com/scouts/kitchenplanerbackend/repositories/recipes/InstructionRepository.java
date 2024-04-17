@@ -24,5 +24,5 @@ import java.util.Collection;
 
 public interface InstructionRepository extends JpaRepository<InstructionEntity, InstructionID> {
 
-    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(Long recipeId);
+    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(long recipeId);
 }

@@ -20,6 +20,7 @@ import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntit
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
@@ -34,6 +35,6 @@ public interface PersonNumberChangeRepository extends JpaRepository<PersonNumber
      * @param id of the requested project
      * @return all changes.
      */
-    @Query("select p from PersonNumberChangeEntity p where p.project.id = ?1")
-    Collection<PersonNumberChangeEntity> findByProject_Id(Long id);
+    @Query("select p from PersonNumberChangeEntity p where p.project.id = :id")
+    Collection<PersonNumberChangeEntity> findByProject_Id(@Param("id") long id);
 }

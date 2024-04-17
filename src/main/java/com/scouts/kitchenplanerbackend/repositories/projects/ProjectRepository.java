@@ -74,7 +74,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     @Transactional
     @Modifying
     @Query("update ProjectEntity p set p.participants = :participants where p.id = :id")
-    void updateParticipantsById(@Param("participants") Collection<UserEntity> participants, @Param("id") Long id);
+    void updateParticipantsById(@Param("participants") Collection<UserEntity> participants, @Param("id") long id);
 
     /**
      * Returns all participants from a project

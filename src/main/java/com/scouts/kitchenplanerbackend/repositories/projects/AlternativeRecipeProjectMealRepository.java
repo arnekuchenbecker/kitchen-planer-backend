@@ -20,6 +20,7 @@ import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjec
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AlternativeRecipeProjectMealID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
@@ -38,6 +39,6 @@ public interface AlternativeRecipeProjectMealRepository
      * @param id of the project
      * @return all alternative recipes
      */
-    @Query("select a from AlternativeRecipeProjectMeal a where a.project.id = ?1")
-    Collection<AlternativeRecipeProjectMeal> findByProject_Id(Long id);
+    @Query("select a from AlternativeRecipeProjectMeal a where a.project.id = :id")
+    Collection<AlternativeRecipeProjectMeal> findByProject_Id(@Param("id") long id);
 }
