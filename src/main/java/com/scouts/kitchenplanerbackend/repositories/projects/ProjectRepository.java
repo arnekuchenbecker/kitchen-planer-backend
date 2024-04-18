@@ -47,7 +47,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     /**
      * Provides all projects stubs where the given participant is part of
      *
-     * @param user who is participating in all of the requested projects
+     * @param user who is participating in all the requested projects
      * @return all projects stubs
      */
     @Query("select p from ProjectEntity p inner join p.participants participants where participants.name = :user")
@@ -60,21 +60,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param participant or person who might be participating
      * @return whether the participant is really participating
      */
-    @Query("""
-            select (count(p) > 0) from ProjectEntity p inner join p.participants participants
-            where participants.id = :participant and p.id = :project""")
+    @Query("select (count(p) > 0) from ProjectEntity p inner join p.participants participants where participants.id = :participant and p.id = :project")
     boolean existsByParticipants_IdAndId(@Param("project") long project, @Param("participant") long participant);
-
-    /**
-     * Changes the participants of a project. Note that the participants will be replaced with this method.
-     *
-     * @param participants all the participants who should participate in the project
-     * @param id           of the project
-     */
-    @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.participants = :participants where p.id = :id")
-    void updateParticipantsById(@Param("participants") Collection<UserEntity> participants, @Param("id") long id);
 
     /**
      * Returns all participants from a project
@@ -92,11 +79,9 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id   of the project
      */
     @Transactional
-    default void joinProject(UserEntity user, long id) {
-        Collection<UserEntity> users = findParticipantsById(id);
-        users.add(user);
-        updateParticipantsById(users, id);
-    }
+    @Modifying
+    @Query("update ProjectEntity p set p.participants = (select users from UserEntity users where users IN (select u from p.participants u) or users = :user) where p.id = :id")
+    void joinProject(UserEntity user, long id);
 
     /**
      * A user can leave the project
@@ -105,10 +90,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id   of the project
      */
     @Transactional
-    default void leaveProject(UserEntity user, long id) {
-        Collection<UserEntity> users = findParticipantsById(id);
-        users.remove(user);
-        updateParticipantsById(users, id);
-    }
+    @Modifying
+    @Query("update ProjectEntity p set p.participants = (select participants from p.participants participants where participants <> :user)  where p.id = :id")
+    void leaveProject(UserEntity user, long id);
 
 }
