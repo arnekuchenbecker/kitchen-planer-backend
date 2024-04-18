@@ -34,6 +34,6 @@ import java.io.Serializable;
 @Setter
 public class AllergenEntityID implements Serializable {
     private ProjectEntity project;
-    private AllergenPersonEntity name;
+    private AllergenPersonEntity allergenPerson;
     private String allergen;
 }

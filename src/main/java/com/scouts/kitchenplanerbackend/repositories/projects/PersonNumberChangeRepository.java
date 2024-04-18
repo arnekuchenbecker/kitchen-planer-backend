@@ -18,6 +18,7 @@ package com.scouts.kitchenplanerbackend.repositories.projects;
 
 import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.PersonNumberChangeID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,7 +29,7 @@ import java.util.Collection;
  * Repository that provides how the amount of persons change during a project.
  * <p> It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
-public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, ProjectEntity> {
+public interface PersonNumberChangeRepository extends JpaRepository<PersonNumberChangeEntity, PersonNumberChangeID> {
 
     /**
      * Provides all changes for a project.
