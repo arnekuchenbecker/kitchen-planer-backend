@@ -14,27 +14,39 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.Date;
+
+/**
+ * This class represents an allergen person for a specific project and determines when this person arrives and leaves.
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@Table(name = "allergen_person_entity")
+@IdClass(AllergenPersonEntityID.class)
+public class AllergenPersonEntity {
+
     @Id
-    @Column(nullable = false)
-    private Long id;
     private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @Id
+    @ManyToOne
+    private ProjectEntity project;
+    private Date arrivalDate;
+    private Date departureDate;
+    @ManyToOne
+    private MealEntity arrivalMeal;
+    @ManyToOne
+    private MealEntity departureMeal;
+
 }
-
-

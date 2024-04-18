@@ -14,27 +14,41 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.MainRecipeProjectMealID;
+import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.Date;
+
+/**
+ * Represents a main recipe for a specified meal slot. Note that there is at most one main recipe per meal slot.
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@IdClass(MainRecipeProjectMealID.class)
+@Table(name = "main_recipe_project_meal_entity")
+public class MainRecipeProjectMealEntity {
     @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @ManyToOne
+    private ProjectEntity project;
+
+    @Id
+    @ManyToOne
+    private MealEntity meal;
+
+    @Id
+    private Date date;
+
+    @ManyToOne
+    private RecipeEntity recipe;
+
 }
-
-

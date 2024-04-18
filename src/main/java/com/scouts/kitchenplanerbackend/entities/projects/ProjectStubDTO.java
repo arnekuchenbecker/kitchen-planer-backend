@@ -14,27 +14,18 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Value;
 
-@Getter
-@Setter
-@Entity
-public class RecipeEntity {
-    @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+import java.io.Serializable;
+
+/**
+ * DTO for {@link ProjectEntity}
+ */
+@Value
+public class ProjectStubDTO implements Serializable {
+    Long id;
+    String name;
+    String imageUri;
 }
-
-

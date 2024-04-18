@@ -14,27 +14,24 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.io.Serializable;
+
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.MealEntity}
+ */
+@EqualsAndHashCode
+@NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class RecipeEntity {
-    @Id
-    @Column(nullable = false)
-    private Long id;
+public class MealEntityID implements Serializable {
+    private ProjectEntity project;
     private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
 }
-
-

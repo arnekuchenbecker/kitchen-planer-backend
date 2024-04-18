@@ -14,16 +14,24 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
-import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntity;
-import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntityID;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Collection;
+import java.io.Serializable;
+import java.util.Date;
 
-public interface DietarySpecialityEntityRepository
-        extends JpaRepository<DietarySpecialityEntity, DietarySpecialityEntityID> {
-
-    Collection<DietarySpecialityEntity> getDietarySpecialityEntitiesByRecipeId(long recipeId);
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
+public class PersonNumberChangeID implements Serializable {
+    private ProjectEntity project;
+    private Date date;
+    private MealEntity meal;
 }

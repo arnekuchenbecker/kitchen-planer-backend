@@ -14,27 +14,36 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.PersonNumberChangeID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.Date;
+
+/**
+ * Represents how many persons arrive/leave before a specified meal slot (meal on a day)
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@IdClass(PersonNumberChangeID.class)
+public class PersonNumberChangeEntity {
+
     @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @ManyToOne
+    private ProjectEntity project;
+    @Id
+    private Date date;
+    @Id
+    @ManyToOne
+    private MealEntity meal;
+
+    private int differenceBefore;
+
 }
-
-

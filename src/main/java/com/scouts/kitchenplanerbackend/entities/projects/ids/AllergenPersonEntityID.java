@@ -14,15 +14,24 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
-import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
-import com.scouts.kitchenplanerbackend.entities.recipe.InstructionID;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Collection;
+import java.io.Serializable;
 
-public interface InstructionEntityRepository extends JpaRepository<InstructionEntity, InstructionID> {
-
-    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(Long recipeId);
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity}
+ */
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
+public class AllergenPersonEntityID implements Serializable {
+    private String name;
+    private ProjectEntity project;
 }

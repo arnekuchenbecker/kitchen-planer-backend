@@ -14,27 +14,39 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
+import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+/**
+ * Represents the basic information about a project including all persons who are part of it.
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@Table(name = "project")
+public class ProjectEntity {
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    private Date startDate;
+    private Date endDate;
+    private String imageUri;
+    @ManyToMany
+    private Collection<UserEntity> participants;
 }
-
-

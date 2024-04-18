@@ -14,27 +14,15 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.repositories.recipes;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.InstructionID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Getter
-@Setter
-@Entity
-public class RecipeEntity {
-    @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+import java.util.Collection;
+
+public interface InstructionRepository extends JpaRepository<InstructionEntity, InstructionID> {
+
+    Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(long recipeId);
 }
-
-

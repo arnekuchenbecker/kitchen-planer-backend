@@ -14,27 +14,15 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.repositories;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.scouts.kitchenplanerbackend.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Getter
-@Setter
-@Entity
-public class RecipeEntity {
-    @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+/**
+ * This repository provides access to all users which might be part of a project.
+ * </p>
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ */
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 }
-
-

@@ -14,27 +14,33 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenEntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+/**
+ * This entity represents an allergen from an {@link AllergenPersonEntity} in a {@link ProjectEntity}
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@IdClass(AllergenEntityID.class)
+public class AllergenEntity {
     @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @ManyToOne
+    private ProjectEntity project;
+    @Id
+    @ManyToOne
+    private AllergenPersonEntity allergenPerson;
+    @Id
+    private String allergen;
+    private boolean traces;
+
+
 }
-
-

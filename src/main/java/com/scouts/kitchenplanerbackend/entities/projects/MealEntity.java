@@ -14,27 +14,30 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.MealEntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+/**
+ * Represents a meal and their relative order to other meals. Each meal slot belongs to one of the meals.
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@IdClass(MealEntityID.class)
+public class MealEntity {
+
     @Id
-    @Column(nullable = false)
-    private Long id;
+    @ManyToOne
+    private ProjectEntity project;
+    private int sequence;
+    @Id
     private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+
 }
-
-

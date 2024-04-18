@@ -14,27 +14,37 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.entities.projects;
 
-import jakarta.persistence.Column;
+import com.scouts.kitchenplanerbackend.entities.projects.ids.UnitConversionID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+/**
+ * Represents how the source unit can be converted in the destination unit respecting the ingredient.
+ */
 @Getter
 @Setter
 @Entity
-public class RecipeEntity {
+@Table(name = "unit_conversion")
+@IdClass(UnitConversionID.class)
+public class UnitConversionEntity {
     @Id
-    @Column(nullable = false)
-    private Long id;
-    private String name;
-    private String imageURI;
-    private String description;
-    @Column(nullable = false)
-    private int numberOfPeople;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    private ProjectEntity project;
+    @Id
+    private String sourceUnit;
+    @Id
+    private String destinationUnit;
+    @Id
+    private String ingredient;
+
+    private double factor;
 }
-
-
