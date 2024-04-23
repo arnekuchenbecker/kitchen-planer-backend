@@ -38,6 +38,8 @@ public class IngredientEntity {
     private String name;
     @Id
     private String ingredientGroup;
+    private Float amount;
+    private String unit;
 
 
 }
