@@ -20,18 +20,25 @@ public class RecipeService {
     }
 
     private void saveNewToRepositories(Recipe recipe) {
-        saveToRepositories(recipe, 0L);
+        saveToRepositories(recipe, true);
     }
 
     private void saveToRepositories(Recipe recipe) {
-        long oldId = this.recipeRepository.getRecipeEntityBy(recipe.id()).getId();
-        saveToRepositories(recipe, ++oldId);
+        saveToRepositories(recipe, false);
     }
 
-    private void saveToRepositories(Recipe recipe, long version) {
+    private void saveToRepositories(Recipe recipe, boolean saveNew) {
         RecipeEntity recipeEntity = new RecipeEntity();
         recipeEntity.setName(recipe.name());
         //TODO image uri
+        long version;
+        if (saveNew) {
+            version = 0L;
+        } else {
+            long oldId = this.recipeRepository.getRecipeEntityBy(recipe.id()).getId();
+            version = ++oldId;
+            assert version > 0L;
+        }
         recipeEntity.setVersion(version);
         recipeEntity.setDescription(recipe.description());
         recipeEntity.setNumberOfPeople(recipe.number_of_people());
