@@ -24,24 +24,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectOrganisationService {
+
     private final ProjectRepository projectRepo;
     private final UserRepository userRepo;
 
     @Autowired
     ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository){
-       this.projectRepo = projectRepository;
-       this.userRepo = userRepository;
+        this.projectRepo = projectRepository;
+        this.userRepo = userRepository;
     }
 
     /**
+     * Provides an invitation link for the project with the given projectID
+     * @param projectId ID of the project to join
+     * @return The requested invitation Link
+     */
+    public String getInvitationLink(long projectId){
+        return "";
+    }
+    /**
      * The user joins the project.
      *
-     * @param projectID ID of the project the user wants to join
+     * @param invitationLink Link that covers the projectID
      * @param username Unique identifier of the user
+     * @return The projectID of the joined project or 0 if the joining was not successful
      */
-    public void joinProject(long projectID, String username){
+    public long joinProject(String invitationLink, String username){
         UserEntity user = userRepo.findByName(username);
+        long projectID = 0; //
         projectRepo.joinProject(user,projectID);
+        return projectID;
     }
 
     /**
@@ -52,5 +64,15 @@ public class ProjectOrganisationService {
     public void leaveProject(long projectID, String username){
         UserEntity user = userRepo.findByName(username);
         projectRepo.leaveProject(user,projectID);
+    }
+
+    /**
+     * Provides the current version of the given project
+     * @param projectId ID for the project
+     *
+     * @return The version number of the project
+     */
+    public long getCurrentProjectVersion(long projectId){
+        return 0;
     }
 }
