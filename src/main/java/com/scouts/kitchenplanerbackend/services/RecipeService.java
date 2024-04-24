@@ -1,10 +1,8 @@
 package com.scouts.kitchenplanerbackend.services;
 
-import com.scouts.kitchenplanerbackend.entities.recipe.DietarySpecialityEntity;
-import com.scouts.kitchenplanerbackend.entities.recipe.DietaryTypes;
-import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
-import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.*;
 import com.scouts.kitchenplanerbackend.repositories.recipes.DietarySpecialityRepository;
+import com.scouts.kitchenplanerbackend.repositories.recipes.IngredientRepository;
 import com.scouts.kitchenplanerbackend.repositories.recipes.InstructionRepository;
 import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +14,7 @@ public class RecipeService {
     RecipeRepository recipeRepository;
     DietarySpecialityRepository dietarySpecialityRepository;
     InstructionRepository instructionRepository;
+    IngredientRepository ingredientRepository;
 
     @Transactional
     public void saveNewRecipe(Recipe recipe) {
@@ -63,6 +62,19 @@ public class RecipeService {
             instructionEntity.setInstruction(recipe.instructions().get(i));
             instructionEntity.setStepNumber(i);
             this.instructionRepository.save(instructionEntity);
+        }
+
+        Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
+        this.ingredientRepository.deleteAll(oldIngredients);
+
+        for (Ingredient ingredient: recipe.ingredients()) {
+            IngredientEntity ingredientEntity = new IngredientEntity();
+            ingredientEntity.setRecipe(recipeEntity);
+            ingredientEntity.setName(ingredient.name());
+            ingredientEntity.setIngredientGroup(ingredient.ingredientGroup());
+            ingredientEntity.setUnit(ingredient.unit());
+            ingredientEntity.setAmount(ingredient.amount());
+            this.ingredientRepository.save(ingredientEntity);
         }
     }
 
