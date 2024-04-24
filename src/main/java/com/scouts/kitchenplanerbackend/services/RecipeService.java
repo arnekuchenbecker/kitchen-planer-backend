@@ -5,6 +5,7 @@ import com.scouts.kitchenplanerbackend.repositories.recipes.DietarySpecialityRep
 import com.scouts.kitchenplanerbackend.repositories.recipes.IngredientRepository;
 import com.scouts.kitchenplanerbackend.repositories.recipes.InstructionRepository;
 import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -15,6 +16,14 @@ public class RecipeService {
     DietarySpecialityRepository dietarySpecialityRepository;
     InstructionRepository instructionRepository;
     IngredientRepository ingredientRepository;
+
+    @Autowired
+    public RecipeService(RecipeRepository recipeRepository, DietarySpecialityRepository dietarySpecialityRepository, InstructionRepository instructionRepository, IngredientRepository ingredientRepository) {
+        this.recipeRepository = recipeRepository;
+        this.dietarySpecialityRepository = dietarySpecialityRepository;
+        this.instructionRepository = instructionRepository;
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @Transactional
     public void saveNewRecipe(Recipe recipe) {
