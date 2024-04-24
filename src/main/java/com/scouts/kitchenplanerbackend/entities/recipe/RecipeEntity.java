@@ -30,6 +30,7 @@ public class RecipeEntity {
     @Id
     @Column(nullable = false)
     private Long id;
+    private Long version;
     private String name;
     private String imageURI;
     private String description;
