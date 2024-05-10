@@ -16,5 +16,5 @@
 
 package com.scouts.kitchenplanerbackend;
 
-public record UnitConversion(String unit, String ingredient, float amount) {
+public record UnitConversion( String startUnit, String endUnit, String ingredient, double factor) {
 }

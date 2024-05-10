@@ -23,6 +23,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Repository that provides all possible meals for projects.
@@ -38,4 +39,8 @@ public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> 
      */
     @Query("select m from MealEntity m where m.project.id = :id")
     Collection<MealEntity> findByProject_Id(@Param("id") long id);
+
+    @Query("select m from MealEntity m where m.project.id = :id and m.name = :name")
+    Optional<MealEntity> findByProject_IdAndName(@Param("id") Long id, @Param("name") String name);
+
 }

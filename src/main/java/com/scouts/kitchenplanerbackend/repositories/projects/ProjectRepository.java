@@ -26,6 +26,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Provides access to the general information of a project and contains the possibility to let people join and leave it.
@@ -94,4 +95,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     @Query("update ProjectEntity p set p.participants = (select participants from p.participants participants where participants <> :user)  where p.id = :id")
     void leaveProject(UserEntity user, long id);
 
+    @Transactional
+    @Modifying
+    @Query("update ProjectEntity p set p.name = ?1, p.startDate = ?2, p.endDate = ?3 where p.id = ?4")
+    int updateNameAndStartDateAndEndDateById(String name, Date startDate, Date endDate, Long id);
 }
