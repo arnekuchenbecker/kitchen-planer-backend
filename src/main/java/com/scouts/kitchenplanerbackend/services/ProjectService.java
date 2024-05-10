@@ -17,6 +17,7 @@
 package com.scouts.kitchenplanerbackend.services;
 
 import com.scouts.kitchenplanerbackend.AllergenPerson;
+import com.scouts.kitchenplanerbackend.PersonNumberChange;
 import com.scouts.kitchenplanerbackend.Project;
 import com.scouts.kitchenplanerbackend.RecipeForProject;
 import com.scouts.kitchenplanerbackend.UnitConversion;
@@ -25,6 +26,7 @@ import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;
 import com.scouts.kitchenplanerbackend.entities.projects.MainRecipeProjectMealEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import com.scouts.kitchenplanerbackend.entities.projects.UnitConversionEntity;
@@ -33,6 +35,7 @@ import com.scouts.kitchenplanerbackend.repositories.projects.AllergenRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.AlternativeRecipeProjectMealRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.MainRecipeProjectMealRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.MealRepository;
+import com.scouts.kitchenplanerbackend.repositories.projects.PersonNumberChangeRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.ProjectRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.UnitConversionRepository;
 import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
@@ -41,7 +44,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Service
@@ -57,13 +62,16 @@ public class ProjectService {
     private final AlternativeRecipeProjectMealRepository alternativeRecipeProjectMealRepository;
     private final UnitConversionRepository unitConversionRepository;
 
+    private final PersonNumberChangeRepository personNumberChangeRepo;
+
     @Autowired
     public ProjectService(ProjectRepository projectRepository, MealRepository mealRepository,
                           AllergenPersonRepository allergenPersonRepository, AllergenRepository allergenRepository,
                           MainRecipeProjectMealRepository mainRecipeProjectMealRepository,
                           RecipeRepository recipeRepository,
                           AlternativeRecipeProjectMealRepository alternativeRecipeProjectMealRepository,
-                          UnitConversionRepository unitConversionRepository) {
+                          UnitConversionRepository unitConversionRepository,
+                          PersonNumberChangeRepository personNumberChangeRepository) {
         this.projectRepo = projectRepository;
         this.mealRepository = mealRepository;
         this.allergenPersonRepo = allergenPersonRepository;
@@ -72,6 +80,7 @@ public class ProjectService {
         this.recipeRepository = recipeRepository;
         this.alternativeRecipeProjectMealRepository = alternativeRecipeProjectMealRepository;
         this.unitConversionRepository = unitConversionRepository;
+        this.personNumberChangeRepo = personNumberChangeRepository;
     }
 
     /**
@@ -145,7 +154,7 @@ public class ProjectService {
                 }
             }
 
-            for(UnitConversion conversion : project.unitConversions()){
+            for (UnitConversion conversion : project.unitConversions()) {
                 UnitConversionEntity conversionEntity = new UnitConversionEntity();
                 conversionEntity.setProject(projectEntity);
                 conversionEntity.setFactor(conversion.factor());
@@ -153,6 +162,15 @@ public class ProjectService {
                 conversionEntity.setSourceUnit(conversion.startUnit());
                 conversionEntity.setDestinationUnit(conversion.endUnit());
                 unitConversionRepository.save(conversionEntity);
+            }
+
+            for (PersonNumberChange change : project.personNumberChange()) {
+                PersonNumberChangeEntity entity = new PersonNumberChangeEntity();
+                entity.setDate(change.date());
+                entity.setProject(projectEntity);
+                entity.setMeal(mealRepository.findByProject_IdAndName(projectID, change.meal()).orElseThrow());
+                entity.setDifferenceBefore(change.differenceBefore());
+                personNumberChangeRepo.save(entity);
             }
         }
         return projectID;
@@ -164,10 +182,11 @@ public class ProjectService {
      * @param project The new version of the project
      * @return whether the new version could be saved
      */
+    @Transactional
     public boolean updateProject(Project project) {
         projectRepo.updateNameAndStartDateAndEndDateById(project.name(), project.startDate(), project.endDate(),
                 project.id());
-        ProjectEntity entity = projectRepo.getReferenceById(project.id());
+        ProjectEntity entity = projectRepo.findById(project.id()).get();
 
         return false;
     }
@@ -178,10 +197,65 @@ public class ProjectService {
      * @param projectID Online ID of a project
      * @return the project
      */
+    @Transactional
     public Project getProject(long projectID) {
-        return new Project();
+        ProjectEntity project = projectRepo.findById(projectID).orElseThrow();
+        List<AllergenPerson> allergenPeople = new ArrayList<>();
+        for (AllergenPersonEntity allergenPersonEntity : allergenPersonRepo.findByProject_Id(projectID)) {
+            List<String> allergen = new ArrayList<>();
+            List<String> traces = new ArrayList<>();
+            Collection<AllergenEntity> allergenEntities =
+                    allergenRepo.findByProject_IdAndAllergenPerson_Name(projectID, allergenPersonEntity.getName());
+            for (AllergenEntity allergenEntity : allergenEntities) {
+                if (allergenEntity.getTraces()) {
+                    traces.add(allergenEntity.getAllergen());
+                } else {
+                    allergen.add(allergenEntity.getAllergen());
+                }
+            }
+            allergenPeople.add(new AllergenPerson(
+                    allergenPersonEntity.getName(),
+                    allergenPersonEntity.getArrivalDate(),
+                    allergenPersonEntity.getDepartureDate(),
+                    allergenPersonEntity.getArrivalMeal().getName(),
+                    allergenPersonEntity.getDepartureMeal().getName(),
+                    allergen,
+                    traces));
+        }
+        List<String> meals = mealRepository.findByProject_Id(projectID).stream().map(MealEntity::getName).toList();
+
+        List<PersonNumberChange> personNumberChanges = personNumberChangeRepo.findByProject_Id(projectID).stream()
+                .map(entity -> new PersonNumberChange(entity.getDate(), entity.getMeal().getName(),
+                        entity.getDifferenceBefore())).toList();
+
+        List<RecipeForProject> recipes =
+                new ArrayList<>(mainRecipeProjectMealRepository.findByProject_Id(projectID).stream().map(
+                        entity -> new RecipeForProject(entity.getDate(), entity.getMeal().getName(),
+                                entity.getRecipe().getId(),
+                                true)).toList());
+        recipes.addAll(alternativeRecipeProjectMealRepository.findByProject_Id(projectID).stream()
+                .map(entity -> new RecipeForProject(entity.getDate(), entity.getMeal().getName(),
+                        entity.getRecipe().getId(), false)).toList());
+
+        List<UnitConversion> unitConversions =
+                unitConversionRepository.findByProject_Id(projectID).stream().map(entity ->
+                        new UnitConversion(entity.getSourceUnit(),
+                                entity.getDestinationUnit(),
+                                entity.getIngredient(),
+                                entity.getFactor())
+                ).toList();
+
+        return new Project(0, 0, project.getName(),
+                project.getId(), meals, project.getStartDate(), project.getEndDate()
+                , allergenPeople, recipes, unitConversions, personNumberChanges);
     }
 
+    /**
+     * Provides all project stubs for the project a user is participating in
+     *
+     * @param username The user who participates in the projects
+     * @return all project Stubs
+     */
     public Collection<ProjectStubDTO> getProjectStubs(String username) {
         return projectRepo.findByParticipants_Name(username);
     }

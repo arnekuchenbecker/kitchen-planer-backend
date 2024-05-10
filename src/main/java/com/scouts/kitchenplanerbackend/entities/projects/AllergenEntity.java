@@ -46,7 +46,7 @@ public class AllergenEntity {
     private AllergenPersonEntity allergenPerson;
     @Id
     private String allergen;
-    private boolean traces;
+    private Boolean traces;
 
 
 }
