@@ -97,11 +97,17 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query("update ProjectEntity p set p.name = :name, p.startDate = :startDate, p.endDate = :endDate where p.id = :id")
-    void updateMetaData(@Param("name") String name, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("id") Long id);
+    @Query("update ProjectEntity p set p.name = :name, p.startDate = :startDate, p.endDate = :endDate, p.projectVersion = (p.projectVersion + 1) where p.id = :id")
+    void updateMetaData(@Param("name") String name, @Param("startDate") Date startDate, @Param("endDate") Date endDate,
+                        @Param("id") Long id);
 
 
     @Transactional
     @Query("select p.participants.size from ProjectEntity p where p.id = :id")
     long countMembersById(@Param("id") Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion + 1) where p.id = :id")
+    int updateImageVersionById(@Param("id") Long id);
 }

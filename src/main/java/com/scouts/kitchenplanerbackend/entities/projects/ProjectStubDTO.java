@@ -28,4 +28,6 @@ public class ProjectStubDTO implements Serializable {
     Long id;
     String name;
     String imageUri;
+    Long projectVersion;
+    Long imageVersion;
 }

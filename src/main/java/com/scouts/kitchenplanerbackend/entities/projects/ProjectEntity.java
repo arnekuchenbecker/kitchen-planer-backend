@@ -24,6 +24,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,6 +48,8 @@ public class ProjectEntity {
     private Date startDate;
     private Date endDate;
     private String imageUri;
+    private Long imageVersion = 0L;
+    private Long projectVersion = 0L;
     @ManyToMany
     private Collection<UserEntity> participants;
 }

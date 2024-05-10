@@ -115,7 +115,7 @@ public class ProjectService {
         personNumberChangeRepo.deleteByProject(projectEntity);
         allergenPersonRepo.deleteByProject(projectEntity); //also deletes the allergens through cascade
         updateProjectEntityFromProject(projectEntity, project);
-        return 0; // TODO get version number
+        return projectEntity.getProjectVersion();
     }
 
     /**
@@ -172,7 +172,7 @@ public class ProjectService {
                                 entity.getFactor())
                 ).toList();
 
-        return new Project(0, 0, project.getName(),
+        return new Project(project.getProjectVersion(), project.getImageVersion(), project.getName(),
                 project.getId(), meals, project.getStartDate(), project.getEndDate()
                 , allergenPeople, recipes, unitConversions, personNumberChanges);
     }
@@ -246,7 +246,7 @@ public class ProjectService {
                 }
             }
 
-            for (UnitConversion conversion : project.unitConversions()) {
+            project.unitConversions().forEach(conversion -> {
                 UnitConversionEntity conversionEntity = new UnitConversionEntity();
                 conversionEntity.setProject(projectEntity);
                 conversionEntity.setFactor(conversion.factor());
@@ -254,16 +254,16 @@ public class ProjectService {
                 conversionEntity.setSourceUnit(conversion.startUnit());
                 conversionEntity.setDestinationUnit(conversion.endUnit());
                 unitConversionRepository.save(conversionEntity);
-            }
+            });
 
-            for (PersonNumberChange change : project.personNumberChange()) {
+            project.personNumberChange().forEach(change -> {
                 PersonNumberChangeEntity entity = new PersonNumberChangeEntity();
                 entity.setDate(change.date());
                 entity.setProject(projectEntity);
                 entity.setMeal(mealRepository.findByProject_IdAndName(projectID, change.meal()).orElseThrow());
                 entity.setDifferenceBefore(change.differenceBefore());
                 personNumberChangeRepo.save(entity);
-            }
+            });
         }
     }
 }
