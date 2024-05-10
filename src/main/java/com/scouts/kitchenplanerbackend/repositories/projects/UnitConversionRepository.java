@@ -16,11 +16,14 @@
 
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.UnitConversionEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.UnitConversionID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -38,4 +41,9 @@ public interface UnitConversionRepository extends JpaRepository<UnitConversionEn
      */
     @Query("select u from UnitConversionEntity u where u.project.id = :id")
     Collection<UnitConversionEntity> findByProject_Id(@Param("id") long id);
+
+    @Transactional
+    @Modifying
+    @Query("delete from UnitConversionEntity u where u.project = :project")
+    void deleteByProject(ProjectEntity project);
 }

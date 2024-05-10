@@ -61,7 +61,6 @@ public class ProjectService {
     private final RecipeRepository recipeRepository;
     private final AlternativeRecipeProjectMealRepository alternativeRecipeProjectMealRepository;
     private final UnitConversionRepository unitConversionRepository;
-
     private final PersonNumberChangeRepository personNumberChangeRepo;
 
     @Autowired
@@ -186,8 +185,7 @@ public class ProjectService {
     public boolean updateProject(Project project) {
         projectRepo.updateNameAndStartDateAndEndDateById(project.name(), project.startDate(), project.endDate(),
                 project.id());
-        ProjectEntity entity = projectRepo.findById(project.id()).get();
-
+        ProjectEntity entity = projectRepo.findById(project.id()).orElseThrow();
         return false;
     }
 

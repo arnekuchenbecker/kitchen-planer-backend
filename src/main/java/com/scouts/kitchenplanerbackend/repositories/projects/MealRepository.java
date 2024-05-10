@@ -17,10 +17,13 @@
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
 import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.MealEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -43,4 +46,8 @@ public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> 
     @Query("select m from MealEntity m where m.project.id = :id and m.name = :name")
     Optional<MealEntity> findByProject_IdAndName(@Param("id") Long id, @Param("name") String name);
 
+    @Transactional
+    @Modifying
+    @Query("delete from MealEntity m where m.project = :project")
+    void deleteByProject(ProjectEntity project);
 }

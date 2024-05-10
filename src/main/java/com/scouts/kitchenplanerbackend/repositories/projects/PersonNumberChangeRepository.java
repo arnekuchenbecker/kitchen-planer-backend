@@ -20,8 +20,10 @@ import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntit
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.PersonNumberChangeID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -38,4 +40,9 @@ public interface PersonNumberChangeRepository extends JpaRepository<PersonNumber
      */
     @Query("select p from PersonNumberChangeEntity p where p.project.id = :id")
     Collection<PersonNumberChangeEntity> findByProject_Id(@Param("id") long id);
+
+    @Transactional
+    @Modifying
+    @Query("delete from PersonNumberChangeEntity p where p.project = :project")
+    void deleteByProject(ProjectEntity project);
 }

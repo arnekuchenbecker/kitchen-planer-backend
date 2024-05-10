@@ -17,10 +17,13 @@
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
 import com.scouts.kitchenplanerbackend.entities.projects.MainRecipeProjectMealEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.MainRecipeProjectMealID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -39,4 +42,9 @@ public interface MainRecipeProjectMealRepository
      */
     @Query("select m from MainRecipeProjectMealEntity m where m.project.id = :id")
     Collection<MainRecipeProjectMealEntity> findByProject_Id(@Param("id") long id);
+
+    @Transactional
+    @Modifying
+    @Query("delete from MainRecipeProjectMealEntity m where m.project = :project")
+    void deleteByProject(ProjectEntity project);
 }
