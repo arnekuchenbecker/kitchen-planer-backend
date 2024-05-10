@@ -29,13 +29,10 @@ public class ProjectOrganisationService {
 
     private final ProjectRepository projectRepo;
     private final UserRepository userRepo;
-    private final ProjectService projectService;
-
     @Autowired
-    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository, final ProjectService projectService){
+    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository){
         this.projectRepo = projectRepository;
         this.userRepo = userRepository;
-        this.projectService = projectService;
     }
 
     /**

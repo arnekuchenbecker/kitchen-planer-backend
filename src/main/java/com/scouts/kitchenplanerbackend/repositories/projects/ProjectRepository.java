@@ -103,8 +103,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
 
     @Transactional
-    @Query("select p.participants.size from ProjectEntity p where p.id = :id")
-    long countMembersById(@Param("id") Long id);
+    @Query("select count(p.participants) from ProjectEntity p where p.id = :id")
+    int countMembersById(@Param("id") Long id);
 
     @Transactional
     @Modifying
