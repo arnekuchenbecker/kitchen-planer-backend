@@ -95,98 +95,27 @@ public class ProjectService {
         projectEntity.setStartDate(project.startDate());
         projectEntity.setEndDate(project.endDate());
         projectEntity = projectRepo.save(projectEntity);
-        long projectID = projectEntity.getId();
-
-        for (int i = 0; i < project.meals().size(); i++) {
-            MealEntity mealEntity = new MealEntity();
-            mealEntity.setProject(projectEntity);
-            mealEntity.setName(project.meals().get(i));
-            mealEntity.setSequence(i);
-            mealRepository.save(mealEntity);
-        }
-
-        for (AllergenPerson allergenPerson : project.allergenPeople()) {
-            AllergenPersonEntity person = new AllergenPersonEntity();
-            person.setName(allergenPerson.name());
-            person.setProject(projectEntity);
-            person.setArrivalDate(allergenPerson.arrivalDate());
-            person.setArrivalMeal(
-                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.arrivalMeal()).orElseThrow());
-            person.setDepartureMeal(
-                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.leaveMeal()).orElseThrow());
-            person.setDepartureDate(allergenPerson.leaveDate());
-            person = allergenPersonRepo.save(person);
-
-            for (String allergen : allergenPerson.allergen()) {
-                AllergenEntity allergenEntity = new AllergenEntity();
-                allergenEntity.setProject(projectEntity);
-                allergenEntity.setAllergenPerson(person);
-                allergenEntity.setAllergen(allergen);
-                allergenEntity.setTraces(false);
-                allergenRepo.save(allergenEntity);
-            }
-
-            for (String trace : allergenPerson.traces()) {
-                AllergenEntity traceEntity = new AllergenEntity();
-                traceEntity.setProject(projectEntity);
-                traceEntity.setAllergenPerson(person);
-                traceEntity.setAllergen(trace);
-                traceEntity.setTraces(true);
-                allergenRepo.save(traceEntity);
-            }
-            for (RecipeForProject recipe : project.recipes()) {
-                if (recipe.mainRecipe()) {
-                    MainRecipeProjectMealEntity mainRecipe = new MainRecipeProjectMealEntity();
-                    mainRecipe.setProject(projectEntity);
-                    mainRecipe.setDate(recipe.date());
-                    mainRecipe.setMeal(mealRepository.findByProject_IdAndName(projectID, recipe.meal()).orElseThrow());
-                    mainRecipe.setRecipe(recipeRepository.findById(recipe.recipeID()).orElseThrow());
-                    mainRecipeProjectMealRepository.save(mainRecipe);
-                } else {
-                    AlternativeRecipeProjectMeal alterativeRecipe = new AlternativeRecipeProjectMeal();
-                    alterativeRecipe.setDate(recipe.date());
-                    alterativeRecipe.setProject(projectEntity);
-                    alterativeRecipe.setMeal(
-                            mealRepository.findByProject_IdAndName(projectID, recipe.meal()).orElseThrow());
-                    alterativeRecipe.setRecipe(recipeRepository.findById(recipe.recipeID()).orElseThrow());
-                    alternativeRecipeProjectMealRepository.save(alterativeRecipe);
-                }
-            }
-
-            for (UnitConversion conversion : project.unitConversions()) {
-                UnitConversionEntity conversionEntity = new UnitConversionEntity();
-                conversionEntity.setProject(projectEntity);
-                conversionEntity.setFactor(conversion.factor());
-                conversionEntity.setIngredient(conversion.ingredient());
-                conversionEntity.setSourceUnit(conversion.startUnit());
-                conversionEntity.setDestinationUnit(conversion.endUnit());
-                unitConversionRepository.save(conversionEntity);
-            }
-
-            for (PersonNumberChange change : project.personNumberChange()) {
-                PersonNumberChangeEntity entity = new PersonNumberChangeEntity();
-                entity.setDate(change.date());
-                entity.setProject(projectEntity);
-                entity.setMeal(mealRepository.findByProject_IdAndName(projectID, change.meal()).orElseThrow());
-                entity.setDifferenceBefore(change.differenceBefore());
-                personNumberChangeRepo.save(entity);
-            }
-        }
-        return projectID;
+        updateProjectEntityFromProject(projectEntity, project);
+        return projectEntity.getId();
     }
 
     /**
      * Rewrites all data of a project, so the latest version of a project is saved
      *
      * @param project The new version of the project
-     * @return whether the new version could be saved
+     * @return The new version number of the project
      */
     @Transactional
-    public boolean updateProject(Project project) {
-        projectRepo.updateNameAndStartDateAndEndDateById(project.name(), project.startDate(), project.endDate(),
+    public long updateProject(Project project) {
+        projectRepo.updateMetaData(project.name(), project.startDate(), project.endDate(),
                 project.id());
-        ProjectEntity entity = projectRepo.findById(project.id()).orElseThrow();
-        return false;
+        ProjectEntity projectEntity = projectRepo.findById(project.id()).orElseThrow();
+        alternativeRecipeProjectMealRepository.deleteByProject(projectEntity);
+        mainRecipeProjectMealRepository.deleteByProject(projectEntity);
+        personNumberChangeRepo.deleteByProject(projectEntity);
+        allergenPersonRepo.deleteByProject(projectEntity); //also deletes the allergens through cascade
+        updateProjectEntityFromProject(projectEntity, project);
+        return 0; // TODO get version number
     }
 
     /**
@@ -256,5 +185,85 @@ public class ProjectService {
      */
     public Collection<ProjectStubDTO> getProjectStubs(String username) {
         return projectRepo.findByParticipants_Name(username);
+    }
+
+
+    private void updateProjectEntityFromProject(ProjectEntity projectEntity, Project project) {
+        long projectID = projectEntity.getId();
+        for (int i = 0; i < project.meals().size(); i++) {
+            MealEntity mealEntity = new MealEntity();
+            mealEntity.setProject(projectEntity);
+            mealEntity.setName(project.meals().get(i));
+            mealEntity.setSequence(i);
+            mealRepository.save(mealEntity);
+        }
+
+        for (AllergenPerson allergenPerson : project.allergenPeople()) {
+            AllergenPersonEntity person = new AllergenPersonEntity();
+            person.setName(allergenPerson.name());
+            person.setProject(projectEntity);
+            person.setArrivalDate(allergenPerson.arrivalDate());
+            person.setArrivalMeal(
+                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.arrivalMeal()).orElseThrow());
+            person.setDepartureMeal(
+                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.leaveMeal()).orElseThrow());
+            person.setDepartureDate(allergenPerson.leaveDate());
+            person = allergenPersonRepo.save(person);
+
+            for (String allergen : allergenPerson.allergen()) {
+                AllergenEntity allergenEntity = new AllergenEntity();
+                allergenEntity.setProject(projectEntity);
+                allergenEntity.setAllergenPerson(person);
+                allergenEntity.setAllergen(allergen);
+                allergenEntity.setTraces(false);
+                allergenRepo.save(allergenEntity);
+            }
+
+            for (String trace : allergenPerson.traces()) {
+                AllergenEntity traceEntity = new AllergenEntity();
+                traceEntity.setProject(projectEntity);
+                traceEntity.setAllergenPerson(person);
+                traceEntity.setAllergen(trace);
+                traceEntity.setTraces(true);
+                allergenRepo.save(traceEntity);
+            }
+            for (RecipeForProject recipe : project.recipes()) {
+                if (recipe.mainRecipe()) {
+                    MainRecipeProjectMealEntity mainRecipe = new MainRecipeProjectMealEntity();
+                    mainRecipe.setProject(projectEntity);
+                    mainRecipe.setDate(recipe.date());
+                    mainRecipe.setMeal(mealRepository.findByProject_IdAndName(projectID, recipe.meal()).orElseThrow());
+                    mainRecipe.setRecipe(recipeRepository.findById(recipe.recipeID()).orElseThrow());
+                    mainRecipeProjectMealRepository.save(mainRecipe);
+                } else {
+                    AlternativeRecipeProjectMeal alternativeRecipe = new AlternativeRecipeProjectMeal();
+                    alternativeRecipe.setDate(recipe.date());
+                    alternativeRecipe.setProject(projectEntity);
+                    alternativeRecipe.setMeal(
+                            mealRepository.findByProject_IdAndName(projectID, recipe.meal()).orElseThrow());
+                    alternativeRecipe.setRecipe(recipeRepository.findById(recipe.recipeID()).orElseThrow());
+                    alternativeRecipeProjectMealRepository.save(alternativeRecipe);
+                }
+            }
+
+            for (UnitConversion conversion : project.unitConversions()) {
+                UnitConversionEntity conversionEntity = new UnitConversionEntity();
+                conversionEntity.setProject(projectEntity);
+                conversionEntity.setFactor(conversion.factor());
+                conversionEntity.setIngredient(conversion.ingredient());
+                conversionEntity.setSourceUnit(conversion.startUnit());
+                conversionEntity.setDestinationUnit(conversion.endUnit());
+                unitConversionRepository.save(conversionEntity);
+            }
+
+            for (PersonNumberChange change : project.personNumberChange()) {
+                PersonNumberChangeEntity entity = new PersonNumberChangeEntity();
+                entity.setDate(change.date());
+                entity.setProject(projectEntity);
+                entity.setMeal(mealRepository.findByProject_IdAndName(projectID, change.meal()).orElseThrow());
+                entity.setDifferenceBefore(change.differenceBefore());
+                personNumberChangeRepo.save(entity);
+            }
+        }
     }
 }
