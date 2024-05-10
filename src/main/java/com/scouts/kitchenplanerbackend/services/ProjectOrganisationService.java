@@ -44,7 +44,7 @@ public class ProjectOrganisationService {
      * @return The requested invitation Link
      */
     public String getInvitationLink(long projectId){
-        return "";
+        return ""; //TODO create invitation link;
     }
     /**
      * The user joins the project.
@@ -56,7 +56,7 @@ public class ProjectOrganisationService {
     @Transactional
     public long joinProject(String invitationLink, String username){
         UserEntity user = userRepo.findByName(username);
-        long projectID = 0; //
+        long projectID = 0; // TODO find which projectID belongs to the invitation link
         projectRepo.joinProject(user,projectID);
         return projectID;
     }
@@ -83,6 +83,6 @@ public class ProjectOrganisationService {
      * @return The version number of the project
      */
     public long getCurrentProjectVersion(long projectId){
-        return 0;
+        return projectRepo.getReferenceById(projectId).getProjectVersion();
     }
 }
