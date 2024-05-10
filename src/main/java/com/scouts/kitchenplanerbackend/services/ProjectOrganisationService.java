@@ -17,21 +17,25 @@
 package com.scouts.kitchenplanerbackend.services;
 
 import com.scouts.kitchenplanerbackend.entities.UserEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.repositories.UserRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProjectOrganisationService {
 
     private final ProjectRepository projectRepo;
     private final UserRepository userRepo;
+    private final ProjectService projectService;
 
     @Autowired
-    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository){
+    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository, final ProjectService projectService){
         this.projectRepo = projectRepository;
         this.userRepo = userRepository;
+        this.projectService = projectService;
     }
 
     /**
@@ -49,6 +53,7 @@ public class ProjectOrganisationService {
      * @param username Unique identifier of the user
      * @return The projectID of the joined project or 0 if the joining was not successful
      */
+    @Transactional
     public long joinProject(String invitationLink, String username){
         UserEntity user = userRepo.findByName(username);
         long projectID = 0; //
@@ -58,12 +63,17 @@ public class ProjectOrganisationService {
 
     /**
      * Leaving a specified project
+     *
      * @param projectID ID of the project the user wants to leave
      * @param username Unique identifier of the user
      */
+    @Transactional
     public void leaveProject(long projectID, String username){
         UserEntity user = userRepo.findByName(username);
         projectRepo.leaveProject(user,projectID);
+        if ( projectRepo.countMembersById(projectID) < 1){
+            projectRepo.findById(projectID).ifPresent(projectRepo::delete);
+        }
     }
 
     /**

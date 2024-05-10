@@ -24,6 +24,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
@@ -41,6 +43,7 @@ public class AllergenPersonEntity {
     private String name;
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
     private Date arrivalDate;
     private Date departureDate;
