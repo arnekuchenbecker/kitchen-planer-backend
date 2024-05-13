@@ -24,11 +24,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This service is used for project organisation such as joining/leaving a project.
+ * It provides the invitation link for a project and the current version number.
+ */
 @Service
 public class ProjectOrganisationService {
 
     private final ProjectRepository projectRepo;
     private final UserRepository userRepo;
+
+    /**
+     * Initializes the needed repositories
+     * @param projectRepository Database access for projects
+     * @param userRepository Database access for users of the app
+     */
     @Autowired
     ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository){
         this.projectRepo = projectRepository;

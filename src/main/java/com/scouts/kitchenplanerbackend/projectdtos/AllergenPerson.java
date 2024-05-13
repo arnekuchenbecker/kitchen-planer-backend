@@ -14,16 +14,26 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.projectDTOs;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Representation of a allergen person used by the controllers and services
+ * @param name Name of the person
+ * @param arrivalDate Date when the person arrives
+ * @param departureDate Date when the person leaves
+ * @param arrivalMeal First meal the person has
+ * @param departureMeal Last meal the person has
+ * @param allergen all allergens the person has
+ * @param traces all relevant traces for the person
+ */
 public record AllergenPerson(String name,
                              Date arrivalDate,
-                             Date leaveDate,
+                             Date departureDate,
                              String arrivalMeal,
-                             String leaveMeal,
+                             String departureMeal,
                              List<String> allergen,
                              List<String> traces) {
 }

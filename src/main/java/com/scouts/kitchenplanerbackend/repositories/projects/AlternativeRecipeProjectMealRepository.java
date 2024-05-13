@@ -45,6 +45,10 @@ public interface AlternativeRecipeProjectMealRepository
     @Query("select a from AlternativeRecipeProjectMeal a where a.project.id = :id")
     Collection<AlternativeRecipeProjectMeal> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Deletes all alternative recipes associated with the given project
+     * @param project Project entity for which the recipes should be deleted
+     */
     @Transactional
     @Modifying
     @Query("delete from AlternativeRecipeProjectMeal a where a.project = :project")

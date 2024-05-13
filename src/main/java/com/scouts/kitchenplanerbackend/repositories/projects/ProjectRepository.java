@@ -95,6 +95,13 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     @Query("update ProjectEntity p set p.participants = (select participants from p.participants participants where participants <> :user)  where p.id = :id")
     void leaveProject(UserEntity user, long id);
 
+    /**
+     * Updates all metadata of a project and increases the project version number
+     * @param name The new name of the project
+     * @param startDate New start date of the project
+     * @param endDate New end date of the project
+     * @param id Id of the project where the metadata is changed
+     */
     @Transactional
     @Modifying
     @Query("update ProjectEntity p set p.name = :name, p.startDate = :startDate, p.endDate = :endDate, p.projectVersion = (p.projectVersion + 1) where p.id = :id")
@@ -102,12 +109,21 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
                         @Param("id") Long id);
 
 
+    /**
+     * Provides the number of participants in a projects
+     * @param id Id of the requested project
+     * @return number of participant in the project
+     */
     @Transactional
     @Query("select count(p.participants) from ProjectEntity p where p.id = :id")
     int countMembersById(@Param("id") Long id);
 
+    /**
+     * increases the  image version number for the project by one
+     * @param id ID of the requested project
+     */
     @Transactional
     @Modifying
     @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion + 1) where p.id = :id")
-    int updateImageVersionById(@Param("id") Long id);
+    void increaseImageVersionById(@Param("id") Long id);
 }

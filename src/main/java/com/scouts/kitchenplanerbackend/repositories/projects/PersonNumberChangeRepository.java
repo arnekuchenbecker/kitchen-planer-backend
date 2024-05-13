@@ -41,6 +41,10 @@ public interface PersonNumberChangeRepository extends JpaRepository<PersonNumber
     @Query("select p from PersonNumberChangeEntity p where p.project.id = :id")
     Collection<PersonNumberChangeEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Deletes all person number changes associated with the given project
+     * @param project Project entity for which the changes should be deleted
+     */
     @Transactional
     @Modifying
     @Query("delete from PersonNumberChangeEntity p where p.project = :project")

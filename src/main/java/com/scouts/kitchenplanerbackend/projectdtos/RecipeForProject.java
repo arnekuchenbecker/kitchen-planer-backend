@@ -14,9 +14,17 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.projectDTOs;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
 import java.util.Date;
 
-public record PersonNumberChange(Date date, String meal, int differenceBefore) {
+/**
+ * Representation of a recipe with its meal slot and if it is the main recipe.
+ * It is used by the controllers and the services.
+ * @param date Date when the recipe is used
+ * @param meal For which meal the recipe is used
+ * @param recipeID ID of the used recipe
+ * @param mainRecipe Whether the recipe is the main recipe for the meal slot
+ */
+public record RecipeForProject(Date date, String meal, long recipeID, boolean mainRecipe) {
 }

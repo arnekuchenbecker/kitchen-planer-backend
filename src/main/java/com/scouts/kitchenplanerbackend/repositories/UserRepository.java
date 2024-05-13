@@ -26,5 +26,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
+    /**
+     * provides the database entry for a user queried by their name
+     * @param name The name of the user
+     * @return The database representation of the user.
+     */
     UserEntity findByName(String name);
 }

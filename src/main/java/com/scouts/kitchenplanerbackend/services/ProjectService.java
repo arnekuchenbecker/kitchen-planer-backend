@@ -16,11 +16,11 @@
 
 package com.scouts.kitchenplanerbackend.services;
 
-import com.scouts.kitchenplanerbackend.projectDTOs.AllergenPerson;
-import com.scouts.kitchenplanerbackend.projectDTOs.PersonNumberChange;
-import com.scouts.kitchenplanerbackend.projectDTOs.Project;
-import com.scouts.kitchenplanerbackend.projectDTOs.RecipeForProject;
-import com.scouts.kitchenplanerbackend.projectDTOs.UnitConversion;
+import com.scouts.kitchenplanerbackend.projectdtos.AllergenPerson;
+import com.scouts.kitchenplanerbackend.projectdtos.PersonNumberChange;
+import com.scouts.kitchenplanerbackend.projectdtos.Project;
+import com.scouts.kitchenplanerbackend.projectdtos.RecipeForProject;
+import com.scouts.kitchenplanerbackend.projectdtos.UnitConversion;
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;
@@ -48,7 +48,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+/**
+ * This service provides methods to store, get and update a project. It also provides all project stubs for a user
+ */
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepo;
@@ -63,6 +65,18 @@ public class ProjectService {
     private final UnitConversionRepository unitConversionRepository;
     private final PersonNumberChangeRepository personNumberChangeRepo;
 
+    /**
+     * Initializes all needed repositories for this service
+     * @param projectRepository Database access for projects
+     * @param mealRepository Database access for meals
+     * @param allergenPersonRepository Database access for metadata of allergen persons
+     * @param allergenRepository Database access for allergens of allergen persons
+     * @param mainRecipeProjectMealRepository Database access for main recipes and their meal slots
+     * @param recipeRepository Database access for all recipes
+     * @param alternativeRecipeProjectMealRepository Database access for alternative recipes and their meal slots
+     * @param unitConversionRepository Database access for unit conversions
+     * @param personNumberChangeRepository Database access for person number changes
+     */
     @Autowired
     public ProjectService(ProjectRepository projectRepository, MealRepository mealRepository,
                           AllergenPersonRepository allergenPersonRepository, AllergenRepository allergenRepository,
@@ -83,7 +97,7 @@ public class ProjectService {
     }
 
     /**
-     * Stores a new project from a user
+     * Stores a new project
      *
      * @param project The project that should be stored
      * @return online ID of the project
@@ -119,8 +133,7 @@ public class ProjectService {
     }
 
     /**
-     * Provides a project for a user if the user is part of the project
-     *
+     * Provides the project with the given Id
      * @param projectID Online ID of a project
      * @return the project
      */
@@ -178,7 +191,7 @@ public class ProjectService {
     }
 
     /**
-     * Provides all project stubs for the project a user is participating in
+     * Provides all project stubs of projects the user is participating in
      *
      * @param username The user who participates in the projects
      * @return all project Stubs
@@ -206,8 +219,8 @@ public class ProjectService {
             person.setArrivalMeal(
                     mealRepository.findByProject_IdAndName(projectID, allergenPerson.arrivalMeal()).orElseThrow());
             person.setDepartureMeal(
-                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.leaveMeal()).orElseThrow());
-            person.setDepartureDate(allergenPerson.leaveDate());
+                    mealRepository.findByProject_IdAndName(projectID, allergenPerson.departureMeal()).orElseThrow());
+            person.setDepartureDate(allergenPerson.departureDate());
             person = allergenPersonRepo.save(person);
 
             for (String allergen : allergenPerson.allergen()) {

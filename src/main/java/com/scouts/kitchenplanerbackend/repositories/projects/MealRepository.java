@@ -43,9 +43,20 @@ public interface MealRepository extends JpaRepository<MealEntity, MealEntityID> 
     @Query("select m from MealEntity m where m.project.id = :id")
     Collection<MealEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Provides the specified meal entity of a meal  for a project
+     * @param id The id of the project
+     * @param name The name of the requested meal
+     * @return The requested database representation of the meal or nothing if this meal does not exist
+     */
     @Query("select m from MealEntity m where m.project.id = :id and m.name = :name")
     Optional<MealEntity> findByProject_IdAndName(@Param("id") Long id, @Param("name") String name);
 
+
+    /**
+     * Deletes all meals associated with the given project
+     * @param project Project entity for which the meals should be deleted
+     */
     @Transactional
     @Modifying
     @Query("delete from MealEntity m where m.project = :project")

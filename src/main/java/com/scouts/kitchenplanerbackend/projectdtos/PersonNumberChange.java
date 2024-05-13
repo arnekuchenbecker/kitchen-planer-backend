@@ -14,7 +14,15 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.projectDTOs;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
-public record UnitConversion( String startUnit, String endUnit, String ingredient, double factor) {
+import java.util.Date;
+
+/**
+ *  Representation of the change of persons who are there before the meal slot used by the controller and services
+ * @param date The date of the meal slot
+ * @param meal The meal on the date
+ * @param differenceBefore The change before the meal happens
+ */
+public record PersonNumberChange(Date date, String meal, int differenceBefore) {
 }

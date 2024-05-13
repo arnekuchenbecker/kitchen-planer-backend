@@ -43,6 +43,10 @@ public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEn
     @Query("select a from AllergenPersonEntity a where a.project.id = :id")
     Collection<AllergenPersonEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Deletes all allergen persons who belong to a specified project
+     * @param project The project where the persons belong to
+     */
     @Transactional
     @Modifying
     @Query("delete from AllergenPersonEntity a where a.project = :project")

@@ -42,6 +42,11 @@ public interface UnitConversionRepository extends JpaRepository<UnitConversionEn
     @Query("select u from UnitConversionEntity u where u.project.id = :id")
     Collection<UnitConversionEntity> findByProject_Id(@Param("id") long id);
 
+
+    /**
+     * Deletes all unit conversions associated with the given project
+     * @param project Project entity for which the unit conversions should be deleted
+     */
     @Transactional
     @Modifying
     @Query("delete from UnitConversionEntity u where u.project = :project")

@@ -43,6 +43,10 @@ public interface MainRecipeProjectMealRepository
     @Query("select m from MainRecipeProjectMealEntity m where m.project.id = :id")
     Collection<MainRecipeProjectMealEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Deletes all main recipes associated with the given project
+     * @param project Project entity for which the recipes should be deleted
+     */
     @Transactional
     @Modifying
     @Query("delete from MainRecipeProjectMealEntity m where m.project = :project")
