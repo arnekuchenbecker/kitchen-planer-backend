@@ -16,11 +16,11 @@
 
 package com.scouts.kitchenplanerbackend.services;
 
-import com.scouts.kitchenplanerbackend.AllergenPerson;
-import com.scouts.kitchenplanerbackend.PersonNumberChange;
-import com.scouts.kitchenplanerbackend.Project;
-import com.scouts.kitchenplanerbackend.RecipeForProject;
-import com.scouts.kitchenplanerbackend.UnitConversion;
+import com.scouts.kitchenplanerbackend.projectDTOs.AllergenPerson;
+import com.scouts.kitchenplanerbackend.projectDTOs.PersonNumberChange;
+import com.scouts.kitchenplanerbackend.projectDTOs.Project;
+import com.scouts.kitchenplanerbackend.projectDTOs.RecipeForProject;
+import com.scouts.kitchenplanerbackend.projectDTOs.UnitConversion;
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;

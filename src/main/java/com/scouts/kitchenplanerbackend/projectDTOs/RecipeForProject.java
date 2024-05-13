@@ -14,7 +14,9 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend;
+package com.scouts.kitchenplanerbackend.projectDTOs;
 
-public record UnitConversion( String startUnit, String endUnit, String ingredient, double factor) {
+import java.util.Date;
+
+public record RecipeForProject(Date date, String meal, long recipeID, boolean mainRecipe) {
 }

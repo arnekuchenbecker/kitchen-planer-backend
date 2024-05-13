@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend;
+package com.scouts.kitchenplanerbackend.projectDTOs;
 
 import java.util.Date;
 

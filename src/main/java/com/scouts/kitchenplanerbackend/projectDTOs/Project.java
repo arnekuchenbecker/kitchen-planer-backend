@@ -14,9 +14,17 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend;
+package com.scouts.kitchenplanerbackend.projectDTOs;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public record RecipeForProject(Date date, String meal, long recipeID, boolean mainRecipe) {
-}
+ public record Project (long versionNumber, long imageVersionNumber, String name, long id, List<String> meals, Date startDate, Date endDate,
+                        List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes, List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange
+     ){
+
+     public Project(){
+         this(0,0,"",0,new ArrayList<>(),new Date(), new Date(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+     }
+ }
