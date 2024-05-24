@@ -16,6 +16,7 @@
 
 package com.scouts.kitchenplanerbackend.services;
 
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import com.scouts.kitchenplanerbackend.projectdtos.AllergenPerson;
 import com.scouts.kitchenplanerbackend.projectdtos.PersonNumberChange;
 import com.scouts.kitchenplanerbackend.projectdtos.Project;
@@ -28,7 +29,6 @@ import com.scouts.kitchenplanerbackend.entities.projects.MainRecipeProjectMealEn
 import com.scouts.kitchenplanerbackend.entities.projects.MealEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.PersonNumberChangeEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
-import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import com.scouts.kitchenplanerbackend.entities.projects.UnitConversionEntity;
 import com.scouts.kitchenplanerbackend.repositories.projects.AllergenPersonRepository;
 import com.scouts.kitchenplanerbackend.repositories.projects.AllergenRepository;
@@ -194,7 +194,7 @@ public class ProjectService {
      * Provides all project stubs of projects the user is participating in
      *
      * @param username The user who participates in the projects
-     * @return all project Stubs
+     * @return All project stubs of projects the user is participating in
      */
     public Collection<ProjectStubDTO> getProjectStubs(String username) {
         return projectRepo.findByParticipants_Name(username);

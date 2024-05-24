@@ -70,30 +70,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id of the project
      * @return all participants
      */
-    @Query("select p from ProjectEntity p where p.id = :id")
+    @Query("select p.participants from ProjectEntity p where p.id = :id")
     Collection<UserEntity> findParticipantsById(@Param("id") long id);
-
-    /**
-     * A user can join the project
-     *
-     * @param user who wants to join
-     * @param id   of the project
-     */
-    @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.participants = (select users from UserEntity users where users IN (select u from p.participants u) or users = :user) where p.id = :id")
-    void joinProject(UserEntity user, long id);
-
-    /**
-     * A user can leave the project
-     *
-     * @param user who wants to leave
-     * @param id   of the project
-     */
-    @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.participants = (select participants from p.participants participants where participants <> :user)  where p.id = :id")
-    void leaveProject(UserEntity user, long id);
 
     /**
      * Updates all metadata of a project and increases the project version number
@@ -103,7 +81,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id Id of the project where the metadata is changed
      */
     @Transactional
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update ProjectEntity p set p.name = :name, p.startDate = :startDate, p.endDate = :endDate, p.projectVersion = (p.projectVersion + 1) where p.id = :id")
     void updateMetaData(@Param("name") String name, @Param("startDate") Date startDate, @Param("endDate") Date endDate,
                         @Param("id") Long id);
@@ -115,7 +93,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @return number of participant in the project
      */
     @Transactional
-    @Query("select count(p.participants) from ProjectEntity p where p.id = :id")
+    @Query("select count(participant) from ProjectEntity p inner join p.participants participant where p.id = :id")
     int countMembersById(@Param("id") Long id);
 
     /**
@@ -123,7 +101,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id ID of the requested project
      */
     @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion + 1) where p.id = :id")
+    @Modifying(clearAutomatically = true)
+    @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion +1) where p.id = :id")
     void increaseImageVersionById(@Param("id") Long id);
 }

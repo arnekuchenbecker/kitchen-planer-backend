@@ -26,8 +26,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+
 
 /**
  * Represents the basic information about a project including all persons who are part of it.
@@ -48,5 +51,5 @@ public class ProjectEntity {
     private Long imageVersion = 0L;
     private Long projectVersion = 0L;
     @ManyToMany
-    private Collection<UserEntity> participants;
+    private Collection<UserEntity> participants = new HashSet<>();
 }

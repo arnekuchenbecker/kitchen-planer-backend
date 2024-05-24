@@ -22,7 +22,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -32,6 +34,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user_entity")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,4 +43,5 @@ public class UserEntity {
     private Long id;
     private String name;
 
+    public UserEntity(String name) {this.name = name;}
 }

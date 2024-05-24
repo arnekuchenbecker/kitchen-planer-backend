@@ -64,7 +64,12 @@ public class ProjectOrganisationService {
     public long joinProject(String invitationLink, String username){
         UserEntity user = userRepo.findByName(username);
         long projectID = 0; // TODO find which projectID belongs to the invitation link
-        projectRepo.joinProject(user,projectID);
+
+        if (projectRepo.existsByParticipants_IdAndId(projectID, user.getId())){
+           return projectID;
+        }
+        projectRepo.findParticipantsById(projectID).add(user);
+        projectRepo.findById(projectID).ifPresent(projectRepo::save);
         return projectID;
     }
 
@@ -77,7 +82,8 @@ public class ProjectOrganisationService {
     @Transactional
     public void leaveProject(long projectID, String username){
         UserEntity user = userRepo.findByName(username);
-        projectRepo.leaveProject(user,projectID);
+        projectRepo.findParticipantsById(projectID).remove(user);
+        projectRepo.findById(projectID).ifPresent(projectRepo::save);
         if ( projectRepo.countMembersById(projectID) < 1){
             projectRepo.findById(projectID).ifPresent(projectRepo::delete);
         }
