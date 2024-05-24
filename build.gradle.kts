@@ -18,7 +18,7 @@
 plugins {
 	java
 	war
-	id("org.springframework.boot") version "3.2.0"
+	id("org.springframework.boot") version "3.2.6"
 	id("io.spring.dependency-management") version "1.1.4"
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
@@ -49,6 +49,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
+	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	//implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
