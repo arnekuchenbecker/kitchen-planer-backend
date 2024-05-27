@@ -20,34 +20,58 @@ import com.scouts.kitchenplanerbackend.entities.CredentialsForUser;
 import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import com.scouts.kitchenplanerbackend.repositories.CredentialsForUserRepository;
 import jakarta.transaction.Transactional;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * This service provides methods to register and log in a user.
+ */
 @Service
 public class CredentialsService {
 
     private final CredentialsForUserRepository userRepository;
 
+    /**
+     * Creates a new Credential service
+     *
+     * @param userRepository Repository which provides access to the credentials of the users and persists them
+     */
     @Autowired
-    public CredentialsService(CredentialsForUserRepository userRepository){
+    public CredentialsService(CredentialsForUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Registers a new user if the username is not yet taken
+     *
+     * @param username The new username of the user
+     * @param password The password of the user
+     * @return Whether the user was created
+     */
     @Transactional
-    public boolean registerUser(String username, String password){
-        if(userRepository.existsByUsername(username)){
+    public boolean registerUser(String username, String password) {
+        if (userRepository.existsByUsername(username)) {
             return false;
         }
         UserEntity newUser = new UserEntity();
         newUser.setName(username);
-        userRepository.save(new CredentialsForUser(newUser, password));
+        CredentialsForUser credentials = new CredentialsForUser();
+        credentials.setPassword(password);
+        credentials.setUser(newUser);
+        userRepository.save(credentials);
         return true;
     }
 
+    /**
+     * Log's in a user. This method checks if the password is correct and if the user exists.
+     *
+     * @param username THe username of user
+     * @param password Provided password from the user
+     * @return Whether the user is logged in //TODO change this when implementing the JWT token (return the token)
+     */
     @Transactional
-    public boolean loginUser(String username, String password){
-        if(!userRepository.existsByUsername(username)){
+    public boolean loginUser(String username, String password) {
+        if (!userRepository.existsByUsername(username)) {
             return false;
         }
         String savedPassword = userRepository.getPasswordByUsername(username);

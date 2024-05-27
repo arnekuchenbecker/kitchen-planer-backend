@@ -16,19 +16,20 @@
 
 package com.scouts.kitchenplanerbackend.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@AllArgsConstructor
+/**
+ * This class represents the associated credentials (password for a user)
+ * This is only for security concerns
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -38,7 +39,7 @@ public class CredentialsForUser {
     @Id
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    UserEntity user;
+    private UserEntity user;
 
     private String password;
 }

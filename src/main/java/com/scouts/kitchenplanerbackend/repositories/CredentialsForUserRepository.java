@@ -22,6 +22,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * This repository provides access to all credential information of the users.
+ * </p>
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ */
 public interface CredentialsForUserRepository extends JpaRepository<CredentialsForUser, UserEntity> {
 
   @Query("select user.password from CredentialsForUser user where user.user.name = :username")
