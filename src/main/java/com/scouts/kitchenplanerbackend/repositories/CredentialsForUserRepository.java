@@ -14,29 +14,11 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities;
+package com.scouts.kitchenplanerbackend.repositories;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
+import com.scouts.kitchenplanerbackend.entities.CredentialsForUser;
+import com.scouts.kitchenplanerbackend.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "user_entity")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @NaturalId
-    private String name;
-
+public interface CredentialsForUserRepository extends JpaRepository<CredentialsForUser, UserEntity> {
 }
