@@ -19,6 +19,15 @@ package com.scouts.kitchenplanerbackend.repositories;
 import com.scouts.kitchenplanerbackend.entities.CredentialsForUser;
 import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface CredentialsForUserRepository extends JpaRepository<CredentialsForUser, UserEntity> {
+
+  @Query("select user.password from CredentialsForUser user where user.user.name = :username")
+  String getPasswordByUsername(@Param("username") String username);
+
+  @Query("select count(user) > 0 from CredentialsForUser user where user.user.name = :username")
+  boolean existsByUsername(String username);
+
 }

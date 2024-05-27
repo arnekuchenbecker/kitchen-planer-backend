@@ -16,6 +16,7 @@
 
 package com.scouts.kitchenplanerbackend.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -24,6 +25,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +37,7 @@ import lombok.Setter;
 public class CredentialsForUser {
     @Id
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     UserEntity user;
 
     private String password;
