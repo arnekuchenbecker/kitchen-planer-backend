@@ -24,8 +24,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 
+/**
+ * Entity that represents a user.
+ * This entity should be used within the program to identify a user and add them to a project.
+ *
+ */
 @Getter
 @Setter
 @Entity
@@ -33,10 +37,9 @@ import org.hibernate.annotations.NaturalId;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @NaturalId
     private String name;
 
 }

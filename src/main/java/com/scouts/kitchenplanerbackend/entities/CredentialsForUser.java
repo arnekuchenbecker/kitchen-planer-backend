@@ -16,8 +16,11 @@
 
 package com.scouts.kitchenplanerbackend.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -28,7 +31,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * This class represents the associated credentials (password for a user)
- * This is only for security concerns
+ * This is only for security concerns. Do not use it when you don't need the password.
  */
 @NoArgsConstructor
 @Getter
@@ -37,7 +40,12 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "credentials_for_user")
 public class CredentialsForUser {
     @Id
+    @Column(name = "user_id")
+    private Long id;
+
+    @MapsId
     @OneToOne
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
