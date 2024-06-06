@@ -68,7 +68,6 @@ public class ProjectRepositoryTest {
 
         assertEquals(2, userRepo.findAll().size());
         long userId1 = user1.getId();
-        long userId2 = user2.getId();
 
         ProjectEntity project = projectRepo.findAll().get(0);
         long projectID = project.getId();
@@ -83,22 +82,24 @@ public class ProjectRepositoryTest {
         assertEquals(1, projectRepo.countMembersById(projectID));
         Collection<UserEntity> u = projectRepo.findParticipantsById(projectID);
         assertEquals(1, u.size());
-        assertEquals(user1, u.toArray()[0]);
+        assertTrue(u.contains(user1));
+
 
         project.getParticipants().add(user2);
         project = projectRepo.save(project);
         assertEquals(2, projectRepo.countMembersById(projectID));
         u = projectRepo.findParticipantsById(projectID);
         assertEquals(2, u.size());
-        assertEquals(user1, u.toArray()[0]);
-        assertEquals(user2, u.toArray()[1]);
+        assertTrue(u.contains(user1));
+        assertTrue(u.contains(user2));
+
 
         project.getParticipants().remove(user1);
-        project = projectRepo.save(project);
+        projectRepo.save(project);
         assertEquals(1, projectRepo.countMembersById(projectID));
         u = projectRepo.findParticipantsById(projectID);
         assertEquals(1, u.size());
-        assertEquals(user2, u.toArray()[0]);
+        assertTrue(u.contains(user2));
 
         userRepo.delete(user2);
         userRepo.delete(user1);
@@ -116,7 +117,7 @@ public class ProjectRepositoryTest {
 
         ProjectEntity project = projectRepo.findAll().get(0);
         project.getParticipants().add(user1);
-        project = projectRepo.save(project);
+        projectRepo.save(project);
 
         Collection<ProjectStubDTO> dtos = projectRepo.findByParticipants_Name("user2");
         assertEquals(0, dtos.size());
