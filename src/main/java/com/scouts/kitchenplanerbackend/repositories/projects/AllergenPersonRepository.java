@@ -17,10 +17,13 @@
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
 import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenPersonEntityID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -40,5 +43,13 @@ public interface AllergenPersonRepository extends JpaRepository<AllergenPersonEn
     @Query("select a from AllergenPersonEntity a where a.project.id = :id")
     Collection<AllergenPersonEntity> findByProject_Id(@Param("id") long id);
 
+    /**
+     * Deletes all allergen persons who belong to a specified project
+     * @param project The project where the persons belong to
+     */
+    @Transactional
+    @Modifying
+    @Query("delete from AllergenPersonEntity a where a.project = :project")
+    void deleteByProject(ProjectEntity project);
 
 }

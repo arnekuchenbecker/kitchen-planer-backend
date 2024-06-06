@@ -25,6 +25,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Represents how the source unit can be converted in the destination unit respecting the ingredient.
@@ -38,6 +40,7 @@ public class UnitConversionEntity {
     @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "project_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
     @Id
     private String sourceUnit;

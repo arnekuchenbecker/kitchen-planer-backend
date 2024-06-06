@@ -17,10 +17,13 @@
 package com.scouts.kitchenplanerbackend.repositories.projects;
 
 import com.scouts.kitchenplanerbackend.entities.projects.AlternativeRecipeProjectMeal;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
 import com.scouts.kitchenplanerbackend.entities.projects.ids.AlternativeRecipeProjectMealID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -41,4 +44,13 @@ public interface AlternativeRecipeProjectMealRepository
      */
     @Query("select a from AlternativeRecipeProjectMeal a where a.project.id = :id")
     Collection<AlternativeRecipeProjectMeal> findByProject_Id(@Param("id") long id);
+
+    /**
+     * Deletes all alternative recipes associated with the given project
+     * @param project Project entity for which the recipes should be deleted
+     */
+    @Transactional
+    @Modifying
+    @Query("delete from AlternativeRecipeProjectMeal a where a.project = :project")
+    void deleteByProject(ProjectEntity project);
 }

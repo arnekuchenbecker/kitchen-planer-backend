@@ -23,6 +23,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Represents a meal and their relative order to other meals. Each meal slot belongs to one of the meals.
@@ -35,6 +37,7 @@ public class MealEntity {
 
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
     private int sequence;
     @Id
