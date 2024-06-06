@@ -21,6 +21,10 @@ import com.scouts.kitchenplanerbackend.entities.UserEntity;
 import com.scouts.kitchenplanerbackend.repositories.CredentialsForUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,14 +35,20 @@ public class CredentialsService {
 
     private final CredentialsForUserRepository userRepository;
 
+    private final AuthenticationProvider authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+
     /**
      * Creates a new Credential service
      *
      * @param userRepository Repository which provides access to the credentials of the users and persists them
      */
     @Autowired
-    public CredentialsService(CredentialsForUserRepository userRepository) {
+    public CredentialsService(CredentialsForUserRepository userRepository, AuthenticationProvider authenticationManager,
+                              PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -56,7 +66,7 @@ public class CredentialsService {
         UserEntity newUser = new UserEntity();
         newUser.setName(username);
         CredentialsForUser credentials = new CredentialsForUser();
-        credentials.setPassword(password);
+        credentials.setPassword(passwordEncoder.encode(password));
         credentials.setUser(newUser);
         userRepository.save(credentials);
         return true;
@@ -67,15 +77,23 @@ public class CredentialsService {
      *
      * @param username THe username of user
      * @param password Provided password from the user
-     * @return Whether the user is logged in //TODO change this when implementing the JWT token (return the token)
+     * @return The token for to prove that the user is logged in or an empty string if it doesn't worked out.
      */
     @Transactional
-    public boolean loginUser(String username, String password) {
+    public String loginUser(String username, String password) {
+
         if (!userRepository.existsByUsername(username)) {
-            return false;
+            return "";
         }
-        String savedPassword = userRepository.getPasswordByUsername(username);
-        savedPassword.equals(password); //TODO compare the passwords
-        return true;
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (AuthenticationException auth){
+            return "";
+        }
+        return "Token";
+
     }
+
+
+
 }

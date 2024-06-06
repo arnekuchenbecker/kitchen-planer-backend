@@ -22,17 +22,33 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 /**
  * This repository provides access to all credential information of the users.
  * </p>
  * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
  */
+
 public interface CredentialsForUserRepository extends JpaRepository<CredentialsForUser, UserEntity> {
 
-  @Query("select user.password from CredentialsForUser user where user.user.name = :username")
-  String getPasswordByUsername(@Param("username") String username);
 
-  @Query("select count(user) > 0 from CredentialsForUser user where user.user.name = :username")
-  boolean existsByUsername(String username);
+    /**
+     * Checks if there is a user with the given username
+     *
+     * @param username the username to be checked
+     * @return whether the user exists
+     */
+    @Query("select count(credentails)>0 from CredentialsForUser credentails Where credentails.user.name = :username ")
+    boolean existsByUsername(@Param("username") String username);
+
+    /**
+     * Returns a user by specified by their name
+     *
+     * @param username The username to search for
+     * @return The user, or an empty optional if they don't exist
+     */
+    @Query("select user from CredentialsForUser user where user.user.name = :username")
+    Optional<CredentialsForUser> findByUsername(@Param("username") String username);
 
 }
