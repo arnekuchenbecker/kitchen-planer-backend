@@ -28,12 +28,17 @@ public class RecipeService {
     @Transactional
     public void saveNewRecipe(Recipe recipe) {
         RecipeEntity recipeEntity = new RecipeEntity();
+
+        //default values
         recipeEntity.setVersion(0L);
         recipeEntity.setImageVersion(-1L);
+
+        //set all info from the recipe that is directly stored in the recipe entity
         recipeEntity.setName(recipe.name());
         recipeEntity.setDescription(recipe.description());
         recipeEntity.setNumberOfPeople(recipe.number_of_people());
         this.recipeRepository.save(recipeEntity);
+
         saveToRepositories(recipe, recipeEntity);
     }
 
@@ -41,22 +46,29 @@ public class RecipeService {
     public void updateRecipe(Recipe recipe) {
         RecipeEntity oldRecipeEntity = this.recipeRepository.findById(recipe.id()).orElseThrow();
 
+        //update all info from the recipe that may be change by the frontend and is directly stored in the recipe entity
         //Todo update Metadata in services
+
+        // deletion of old data in secondary repositories to avoid duplications when override happens next
+        Collection<DietarySpecialityEntity> oldDietarySpecialities = this.dietarySpecialityRepository.getDietarySpecialityEntitiesByRecipeId(recipe.id());
+        this.dietarySpecialityRepository.deleteAll(oldDietarySpecialities);
+        Collection<InstructionEntity> oldInstructions = this.instructionRepository.getInstructionEntitiesByRecipeIdOrderByStepNumber(recipe.id());
+        this.instructionRepository.deleteAll(oldInstructions);
+        Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
+        this.ingredientRepository.deleteAll(oldIngredients);
+
 
         saveToRepositories(recipe, oldRecipeEntity);
     }
 
     private void saveToRepositories(Recipe recipe,  RecipeEntity recipeEntity) {
 
-        Collection<DietarySpecialityEntity> oldDietarySpecialities = this.dietarySpecialityRepository.getDietarySpecialityEntitiesByRecipeId(recipe.id());
-        this.dietarySpecialityRepository.deleteAll(oldDietarySpecialities);
+
 
         writeDietaryRestrictionType(recipeEntity, recipe.traces(), DietaryTypes.TRACE);
         writeDietaryRestrictionType(recipeEntity, recipe.allergens(), DietaryTypes.ALLERGEN);
         writeDietaryRestrictionType(recipeEntity, recipe.freeOfAllergen(), DietaryTypes.FREE_OF);
 
-        Collection<InstructionEntity> oldInstructions = this.instructionRepository.getInstructionEntitiesByRecipeIdOrderByStepNumber(recipe.id());
-        this.instructionRepository.deleteAll(oldInstructions);
 
         for (int i = 0; i < recipe.instructions().toArray().length; i++) {
             InstructionEntity instructionEntity = new InstructionEntity();
@@ -66,8 +78,7 @@ public class RecipeService {
             this.instructionRepository.save(instructionEntity);
         }
 
-        Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
-        this.ingredientRepository.deleteAll(oldIngredients);
+
 
         for (Ingredient ingredient: recipe.ingredients()) {
             IngredientEntity ingredientEntity = new IngredientEntity();
