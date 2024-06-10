@@ -58,18 +58,14 @@ public class RecipeService {
         Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
         this.ingredientRepository.deleteAll(oldIngredients);
 
-
         saveToRepositories(recipe, oldRecipeEntity);
     }
 
     private void saveToRepositories(Recipe recipe,  RecipeEntity recipeEntity) {
 
-
-
         writeDietaryRestrictionType(recipeEntity, recipe.traces(), DietaryTypes.TRACE);
         writeDietaryRestrictionType(recipeEntity, recipe.allergens(), DietaryTypes.ALLERGEN);
         writeDietaryRestrictionType(recipeEntity, recipe.freeOfAllergen(), DietaryTypes.FREE_OF);
-
 
         for (int i = 0; i < recipe.instructions().toArray().length; i++) {
             InstructionEntity instructionEntity = new InstructionEntity();
@@ -78,8 +74,6 @@ public class RecipeService {
             instructionEntity.setStepNumber(i);
             this.instructionRepository.save(instructionEntity);
         }
-
-
 
         for (Ingredient ingredient: recipe.ingredients()) {
             IngredientEntity ingredientEntity = new IngredientEntity();
