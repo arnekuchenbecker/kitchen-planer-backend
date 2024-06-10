@@ -41,16 +41,24 @@ public class RecipeService {
     private void saveToRepositories(Recipe recipe, boolean saveNew) {
         RecipeEntity recipeEntity = new RecipeEntity();
         recipeEntity.setName(recipe.name());
-        //TODO image uri
         long version;
+        long imageVersion;
         if (saveNew) {
             version = 0L;
+            imageVersion = -1L;
         } else {
-            long oldId = this.recipeRepository.getRecipeEntityBy(recipe.id()).getId();
+            RecipeEntityDTO oldRecipeEntity = this.recipeRepository.getRecipeEntityBy(recipe.id());
+            long oldId = recipeEntity.getId();
             version = ++oldId;
             assert version > 0L;
+
+            //TODO ask Toni why we need to RecipeEntityDTO and whether i should add all fields i added to RecipeEntity as well
+            long oldImageId = 123L;
+            imageVersion = ++oldImageId;
+            assert imageVersion >= 0L;
         }
         recipeEntity.setVersion(version);
+        recipeEntity.setImageVersion(imageVersion);
         recipeEntity.setDescription(recipe.description());
         recipeEntity.setNumberOfPeople(recipe.number_of_people());
         this.recipeRepository.save(recipeEntity);

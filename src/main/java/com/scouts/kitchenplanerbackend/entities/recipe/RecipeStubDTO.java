@@ -26,5 +26,7 @@ import java.io.Serializable;
 @Value
 public class RecipeStubDTO implements Serializable {
     Long id;
+    Long version;
     String name;
+    Long imageVersion;
 }

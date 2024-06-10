@@ -33,6 +33,7 @@ public class RecipeEntity {
     private Long version;
     private String name;
     private String imageURI;
+    private Long imageVersion;
     private String description;
     @Column(nullable = false)
     private int numberOfPeople;
