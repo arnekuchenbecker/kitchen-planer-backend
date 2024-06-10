@@ -39,7 +39,7 @@ public class RecipeService {
         recipeEntity.setNumberOfPeople(recipe.number_of_people());
         this.recipeRepository.save(recipeEntity);
 
-        saveToRepositories(recipe, recipeEntity);
+        updateRecipeEntityFromRecipe(recipeEntity, recipe);
     }
 
     @Transactional
@@ -58,10 +58,10 @@ public class RecipeService {
         Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
         this.ingredientRepository.deleteAll(oldIngredients);
 
-        saveToRepositories(recipe, oldRecipeEntity);
+        updateRecipeEntityFromRecipe(oldRecipeEntity, recipe);
     }
 
-    private void saveToRepositories(Recipe recipe,  RecipeEntity recipeEntity) {
+    private void updateRecipeEntityFromRecipe(RecipeEntity recipeEntity, Recipe recipe) {
 
         writeDietaryRestrictionType(recipeEntity, recipe.traces(), DietaryTypes.TRACE);
         writeDietaryRestrictionType(recipeEntity, recipe.allergens(), DietaryTypes.ALLERGEN);
