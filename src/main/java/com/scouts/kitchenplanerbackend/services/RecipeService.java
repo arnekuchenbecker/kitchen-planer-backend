@@ -46,8 +46,8 @@ public class RecipeService {
     public void updateRecipe(Recipe recipe) {
         RecipeEntity oldRecipeEntity = this.recipeRepository.findById(recipe.id()).orElseThrow();
 
-        //update all info from the recipe that may be change by the frontend and is directly stored in the recipe entity
-        //Todo update Metadata in services
+        //update all info from the recipe that may be changed by the frontend and is directly stored in the recipe entity
+        this.recipeRepository.updateMetaData(recipe.name(), recipe.description(), recipe.number_of_people(), oldRecipeEntity.getId());
 
         // deletion of old data in secondary repositories to avoid duplications when override happens next
         //Todo make deletions happen in Repository functions

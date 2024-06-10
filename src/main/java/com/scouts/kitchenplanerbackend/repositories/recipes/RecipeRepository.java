@@ -20,8 +20,12 @@ import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntityDTO;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeStubDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
@@ -34,4 +38,12 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Query("select r from RecipeEntity r")
     RecipeEntityDTO getRecipeEntityBy(@Param("id") long id);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update RecipeEntity r set r.name = :name, r.description = :description, r.numberOfPeople = :numberOfPeople, r.version = (r.version + 1) where r.id = :id")
+    void updateMetaData(@Param("name") String name, @Param("description") String description, @Param("numberOfPeople") int numberOfPeople,
+                        @Param("id") Long id);
+
+    //Todo add increaseImageVersionById
 }
