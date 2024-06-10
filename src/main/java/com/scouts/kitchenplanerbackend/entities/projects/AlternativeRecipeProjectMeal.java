@@ -26,6 +26,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
@@ -41,15 +43,17 @@ import java.util.Date;
 public class AlternativeRecipeProjectMeal {
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MealEntity meal;
-
     @Id
     private Date date;
     @Id
     @ManyToOne
+    @OnDelete(action =OnDeleteAction.CASCADE)
     private RecipeEntity recipe;
 
 }

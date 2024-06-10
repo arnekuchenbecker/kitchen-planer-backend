@@ -26,6 +26,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Provides access to the general information of a project and contains the possibility to let people join and leave it.
@@ -69,29 +70,38 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
      * @param id of the project
      * @return all participants
      */
-    @Query("select p from ProjectEntity p where p.id = :id")
+    @Query("select p.participants from ProjectEntity p where p.id = :id")
     Collection<UserEntity> findParticipantsById(@Param("id") long id);
 
     /**
-     * A user can join the project
-     *
-     * @param user who wants to join
-     * @param id   of the project
+     * Updates all metadata of a project and increases the project version number
+     * @param name The new name of the project
+     * @param startDate New start date of the project
+     * @param endDate New end date of the project
+     * @param id Id of the project where the metadata is changed
      */
     @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.participants = (select users from UserEntity users where users IN (select u from p.participants u) or users = :user) where p.id = :id")
-    void joinProject(UserEntity user, long id);
+    @Modifying(clearAutomatically = true)
+    @Query("update ProjectEntity p set p.name = :name, p.startDate = :startDate, p.endDate = :endDate, p.projectVersion = (p.projectVersion + 1) where p.id = :id")
+    void updateMetaData(@Param("name") String name, @Param("startDate") Date startDate, @Param("endDate") Date endDate,
+                        @Param("id") Long id);
+
 
     /**
-     * A user can leave the project
-     *
-     * @param user who wants to leave
-     * @param id   of the project
+     * Provides the number of participants in a projects
+     * @param id Id of the requested project
+     * @return number of participant in the project
      */
     @Transactional
-    @Modifying
-    @Query("update ProjectEntity p set p.participants = (select participants from p.participants participants where participants <> :user)  where p.id = :id")
-    void leaveProject(UserEntity user, long id);
+    @Query("select count(participant) from ProjectEntity p inner join p.participants participant where p.id = :id")
+    int countMembersById(@Param("id") Long id);
 
+    /**
+     * increases the  image version number for the project by one
+     * @param id ID of the requested project
+     */
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion +1) where p.id = :id")
+    void increaseImageVersionById(@Param("id") Long id);
 }

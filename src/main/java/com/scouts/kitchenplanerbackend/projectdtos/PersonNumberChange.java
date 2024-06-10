@@ -14,22 +14,15 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
-import com.scouts.kitchenplanerbackend.entities.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Date;
 
 /**
- * This repository provides access to all users which might be part of a project.
- * </p>
- * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ *  Representation of the change of persons who are there before the meal slot used by the controller and services
+ * @param date The date of the meal slot
+ * @param meal The meal on the date
+ * @param differenceBefore The change before the meal happens
  */
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
-    /**
-     * provides the database entry for a user queried by their name
-     * @param name The name of the user
-     * @return The database representation of the user.
-     */
-    UserEntity findByName(String name);
+public record PersonNumberChange(Date date, String meal, int differenceBefore) {
 }

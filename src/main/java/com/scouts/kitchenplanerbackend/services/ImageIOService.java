@@ -37,7 +37,7 @@ public class ImageIOService {
 
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // TODO - store fileName to the database for the correct project
+        // TODO - store fileName to the database for the correct project, update the image version
     }
 
     public void saveRecipeImage(MultipartFile image, Long recipeID) throws IOException {

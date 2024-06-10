@@ -14,22 +14,17 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.repositories;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
-import com.scouts.kitchenplanerbackend.entities.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Date;
 
 /**
- * This repository provides access to all users which might be part of a project.
- * </p>
- * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ * Representation of a recipe with its meal slot and if it is the main recipe.
+ * It is used by the controllers and the services.
+ * @param date Date when the recipe is used
+ * @param meal For which meal the recipe is used
+ * @param recipeID ID of the used recipe
+ * @param mainRecipe Whether the recipe is the main recipe for the meal slot
  */
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
-    /**
-     * provides the database entry for a user queried by their name
-     * @param name The name of the user
-     * @return The database representation of the user.
-     */
-    UserEntity findByName(String name);
+public record RecipeForProject(Date date, String meal, long recipeID, boolean mainRecipe) {
 }
