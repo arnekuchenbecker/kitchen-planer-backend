@@ -41,7 +41,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("update RecipeEntity r set r.name = :name, r.description = :description, r.numberOfPeople = :numberOfPeople, r.version = (r.version + 1) where r.id = :id")
+    @Query("update RecipeEntity r set r.name = :name, r.description = :description, r.numberOfPeople = :numberOfPeople, r.recipeVersion = (r.recipeVersion + 1) where r.id = :id")
     void updateMetaData(@Param("name") String name, @Param("description") String description, @Param("numberOfPeople") int numberOfPeople,
                         @Param("id") Long id);
 

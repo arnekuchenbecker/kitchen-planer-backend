@@ -30,7 +30,7 @@ public class RecipeService {
         RecipeEntity recipeEntity = new RecipeEntity();
 
         //default values
-        recipeEntity.setVersion(0L);
+        recipeEntity.setRecipeVersion(0L);
         recipeEntity.setImageVersion(-1L);
 
         //set all info from the recipe that is directly stored in the recipe entity
