@@ -29,10 +29,6 @@ public class RecipeService {
     public void saveNewRecipe(Recipe recipe) {
         RecipeEntity recipeEntity = new RecipeEntity();
 
-        //default values
-        recipeEntity.setRecipeVersion(0L);
-        recipeEntity.setImageVersion(-1L);
-
         //set all info from the recipe that is directly stored in the recipe entity
         recipeEntity.setName(recipe.name());
         recipeEntity.setDescription(recipe.description());

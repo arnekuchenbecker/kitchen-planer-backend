@@ -31,11 +31,11 @@ public class RecipeEntity {
     @GeneratedValue
     @Column(nullable = false)
     private Long id;
-    private Long recipeVersion;
     private String name;
-    private String imageURI;
-    private Long imageVersion;
     private String description;
+    private String imageURI;
+    private Long imageVersion = 0L;
+    private Long recipeVersion = 0L;
     @Column(nullable = false)
     private int numberOfPeople;
 }
