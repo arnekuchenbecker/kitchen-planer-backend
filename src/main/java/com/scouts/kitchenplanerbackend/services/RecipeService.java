@@ -50,6 +50,7 @@ public class RecipeService {
         //Todo update Metadata in services
 
         // deletion of old data in secondary repositories to avoid duplications when override happens next
+        //Todo make deletions happen in Repository functions
         Collection<DietarySpecialityEntity> oldDietarySpecialities = this.dietarySpecialityRepository.getDietarySpecialityEntitiesByRecipeId(recipe.id());
         this.dietarySpecialityRepository.deleteAll(oldDietarySpecialities);
         Collection<InstructionEntity> oldInstructions = this.instructionRepository.getInstructionEntitiesByRecipeIdOrderByStepNumber(recipe.id());
