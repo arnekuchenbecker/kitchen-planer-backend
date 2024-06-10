@@ -18,6 +18,7 @@ package com.scouts.kitchenplanerbackend.entities.recipe;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ import lombok.ToString;
 @Entity
 public class RecipeEntity {
     @Id
+    @GeneratedValue
     @Column(nullable = false)
     private Long id;
     private Long version;
