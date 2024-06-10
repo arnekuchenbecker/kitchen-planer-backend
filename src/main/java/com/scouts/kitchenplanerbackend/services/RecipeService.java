@@ -27,14 +27,11 @@ public class RecipeService {
 
     @Transactional
     public void saveNewRecipe(Recipe recipe) {
-        saveNewToRepositories(recipe);
-    }
-
-    private void saveNewToRepositories(Recipe recipe) {
         saveToRepositories(recipe, true);
     }
 
-    private void saveToRepositories(Recipe recipe) {
+    @Transactional
+    public void updateRecipe(Recipe recipe) {
         saveToRepositories(recipe, false);
     }
 
