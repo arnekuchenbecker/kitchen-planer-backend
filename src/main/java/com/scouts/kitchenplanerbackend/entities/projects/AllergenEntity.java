@@ -20,9 +20,13 @@ import com.scouts.kitchenplanerbackend.entities.projects.ids.AllergenEntityID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * This entity represents an allergen from an {@link AllergenPersonEntity} in a {@link ProjectEntity}
@@ -34,13 +38,15 @@ import lombok.Setter;
 public class AllergenEntity {
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectEntity project;
     @Id
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private AllergenPersonEntity allergenPerson;
     @Id
     private String allergen;
-    private boolean traces;
+    private Boolean traces;
 
 
 }

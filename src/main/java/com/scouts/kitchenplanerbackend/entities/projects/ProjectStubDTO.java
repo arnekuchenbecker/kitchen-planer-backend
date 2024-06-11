@@ -16,16 +16,41 @@
 
 package com.scouts.kitchenplanerbackend.entities.projects;
 
-import lombok.Value;
-
-import java.io.Serializable;
+import lombok.Getter;
 
 /**
- * DTO for {@link ProjectEntity}
+ * Projection for {@link ProjectEntity}
  */
-@Value
-public class ProjectStubDTO implements Serializable {
-    Long id;
-    String name;
-    String imageUri;
+public interface ProjectStubDTO {
+
+    /**
+     * Provides the id of a project stub
+     * @return The id of the project
+     */
+    Long getId();
+
+    /**
+     * Provides the name of a project stub
+     * @return The name of the project
+     */
+    String getName();
+
+    /**
+     * Provides the image URI as String of a project stub
+     * @return The image URI
+     */
+    String getImageUri();
+
+    /**
+     * Provides the image version of a project stub
+     * @return The image version
+     */
+    Long getImageVersion();
+
+    /**
+     * Provides the project version of a project stub
+     * @return The project version
+     */
+    Long getProjectVersion();
+
 }
