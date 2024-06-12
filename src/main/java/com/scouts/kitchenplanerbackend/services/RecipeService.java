@@ -8,6 +8,7 @@ import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeService {
@@ -24,6 +25,11 @@ public class RecipeService {
         this.ingredientRepository = ingredientRepository;
     }
 
+    /**
+     * todo
+     *
+     * @param recipe
+     */
     @Transactional
     public void saveNewRecipe(Recipe recipe) {
         RecipeEntity recipeEntity = new RecipeEntity();
@@ -37,6 +43,11 @@ public class RecipeService {
         updateRecipeEntityFromRecipe(recipeEntity, recipe);
     }
 
+    /**
+     * todo
+     *
+     * @param recipe
+     */
     @Transactional
     public void updateRecipe(Recipe recipe) {
         RecipeEntity oldRecipeEntity = this.recipeRepository.findById(recipe.id()).orElseThrow();
@@ -50,6 +61,17 @@ public class RecipeService {
         this.ingredientRepository.deleteByRecipe(oldRecipeEntity);
 
         updateRecipeEntityFromRecipe(oldRecipeEntity, recipe);
+    }
+
+    /**
+     * todo
+     *
+     * @param recipeID
+     * @return
+     */
+    public Recipe getRecipe(long recipeID) {
+        //todo
+        return new Recipe(1L, "1", "1", 1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     private void updateRecipeEntityFromRecipe(RecipeEntity recipeEntity, Recipe recipe) {
