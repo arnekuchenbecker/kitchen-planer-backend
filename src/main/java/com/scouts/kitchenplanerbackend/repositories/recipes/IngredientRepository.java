@@ -18,7 +18,11 @@ package com.scouts.kitchenplanerbackend.repositories.recipes;
 
 import com.scouts.kitchenplanerbackend.entities.recipe.IngredientEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.IngredientID;
+import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -26,4 +30,13 @@ public interface IngredientRepository extends JpaRepository<IngredientEntity, In
 
     Collection<IngredientEntity> getIngredientEntitiesByRecipeId(long recipeId);
 
+    /**
+     * Deletes all ingredients associated with the given recipe
+     *
+     * @param recipe Recipe entity for which the ingredients should be deleted
+     */
+    @Transactional
+    @Modifying
+    @Query("delete from IngredientEntity a where a.recipe = :recipe")
+    void deleteByRecipe(RecipeEntity recipe);
 }

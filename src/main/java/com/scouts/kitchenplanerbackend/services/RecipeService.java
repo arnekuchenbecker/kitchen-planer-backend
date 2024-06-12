@@ -8,7 +8,6 @@ import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 
 public class RecipeService {
@@ -46,13 +45,9 @@ public class RecipeService {
         this.recipeRepository.updateMetaData(recipe.name(), recipe.description(), recipe.number_of_people(), oldRecipeEntity.getId());
 
         // deletion of old data in secondary repositories to avoid duplications when override happens next
-        //Todo make deletions happen in Repository functions
-        Collection<DietarySpecialityEntity> oldDietarySpecialities = this.dietarySpecialityRepository.getDietarySpecialityEntitiesByRecipeId(recipe.id());
-        this.dietarySpecialityRepository.deleteAll(oldDietarySpecialities);
-        Collection<InstructionEntity> oldInstructions = this.instructionRepository.getInstructionEntitiesByRecipeIdOrderByStepNumber(recipe.id());
-        this.instructionRepository.deleteAll(oldInstructions);
-        Collection<IngredientEntity> oldIngredients = this.ingredientRepository.getIngredientEntitiesByRecipeId(recipe.id());
-        this.ingredientRepository.deleteAll(oldIngredients);
+        this.dietarySpecialityRepository.deleteByRecipe(oldRecipeEntity);
+        this.instructionRepository.deleteByRecipe(oldRecipeEntity);
+        this.ingredientRepository.deleteByRecipe(oldRecipeEntity);
 
         updateRecipeEntityFromRecipe(oldRecipeEntity, recipe);
     }
@@ -71,7 +66,7 @@ public class RecipeService {
             this.instructionRepository.save(instructionEntity);
         }
 
-        for (Ingredient ingredient: recipe.ingredients()) {
+        for (Ingredient ingredient : recipe.ingredients()) {
             IngredientEntity ingredientEntity = new IngredientEntity();
             ingredientEntity.setRecipe(recipeEntity);
             ingredientEntity.setName(ingredient.name());
@@ -83,7 +78,7 @@ public class RecipeService {
     }
 
     private void writeDietaryRestrictionType(RecipeEntity recipeEntity, List<String> dietaryList, DietaryTypes type) {
-        for (String restriction: dietaryList) {
+        for (String restriction : dietaryList) {
             DietarySpecialityEntity dietarySpecialityEntity = new DietarySpecialityEntity();
             dietarySpecialityEntity.setRecipe(recipeEntity);
             dietarySpecialityEntity.setSpeciality(restriction);

@@ -18,11 +18,25 @@ package com.scouts.kitchenplanerbackend.repositories.recipes;
 
 import com.scouts.kitchenplanerbackend.entities.recipe.InstructionEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.InstructionID;
+import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 public interface InstructionRepository extends JpaRepository<InstructionEntity, InstructionID> {
 
     Collection<InstructionEntity> getInstructionEntitiesByRecipeIdOrderByStepNumber(long recipeId);
+
+    /**
+     * Deletes all instructions associated with the given recipe
+     *
+     * @param recipe Recipe entity for which the instructions should be deleted
+     */
+    @Transactional
+    @Modifying
+    @Query("delete from InstructionEntity a where a.recipe = :recipe")
+    void deleteByRecipe(RecipeEntity recipe);
 }
