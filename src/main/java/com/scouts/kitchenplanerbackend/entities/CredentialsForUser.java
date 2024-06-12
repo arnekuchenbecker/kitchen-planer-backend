@@ -18,33 +18,36 @@ package com.scouts.kitchenplanerbackend.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
- * Entity that represents a user.
- * This entity should be used within the program to identify a user and add them to a project.
- *
+ * This class represents the associated credentials (password for a user)
+ * This is only for security concerns. Do not use it when you don't need the password.
  */
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "user_entity")
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserEntity {
+@Table(name = "credentials_for_user")
+public class CredentialsForUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @Column(name = "user_id")
     private Long id;
 
-    private String name;
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private UserEntity user;
 
-    public UserEntity(String name) {this.name = name;}
+    private String password;
 }

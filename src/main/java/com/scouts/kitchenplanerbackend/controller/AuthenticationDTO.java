@@ -14,21 +14,13 @@
  * GNU General Public License for more details.
  */
 
-package com.scouts.kitchenplanerbackend.entities.recipe;
+package com.scouts.kitchenplanerbackend.controller;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.io.Serializable;
-
-@EqualsAndHashCode
-@NoArgsConstructor
-@Getter
-@Setter
-public class IngredientID implements Serializable {
-    private long recipe;
-    private String name;
-    private String ingredientGroup;
+/**
+ * DTO used for authentication and login
+ *
+ * @param username Name of the user
+ * @param password Password of the user
+ */
+public record AuthenticationDTO(String username, String password) {
 }
