@@ -25,8 +25,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Query("select r.imageURI  from RecipeEntity r where r.id = :id")
@@ -45,5 +43,8 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     void updateMetaData(@Param("name") String name, @Param("description") String description, @Param("numberOfPeople") int numberOfPeople,
                         @Param("id") Long id);
 
-    //Todo add increaseImageVersionById
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update RecipeEntity r set r.imageURI = (r.imageURI + 1) where r.id = :id")
+    void updateImageURI(@Param("imageURI") String imageURI, @Param("id") Long id);
 }
