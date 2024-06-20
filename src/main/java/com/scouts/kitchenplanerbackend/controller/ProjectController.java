@@ -100,7 +100,7 @@ public class ProjectController {
      * @return A response entity containing a collection of project stubs representing all projects the user is
      *         participating in. Returns HTTP status code 200 and the request body contains the project stubs.
      */
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Collection<ProjectStubDTO>> getStubsForUsername(@RequestParam String user) {
         Collection<ProjectStubDTO> stubs = projectService.getProjectStubs(user);
         return ResponseEntity.ok(stubs);
