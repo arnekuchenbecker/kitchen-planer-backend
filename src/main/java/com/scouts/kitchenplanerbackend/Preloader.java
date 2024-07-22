@@ -18,7 +18,6 @@ package com.scouts.kitchenplanerbackend;
 
 import com.scouts.kitchenplanerbackend.projectdtos.AllergenPerson;
 import com.scouts.kitchenplanerbackend.projectdtos.Project;
-import com.scouts.kitchenplanerbackend.projectdtos.RecipeForProject;
 import com.scouts.kitchenplanerbackend.services.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +29,20 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * Class to initalize the database
+ */
 @Configuration
 public class Preloader {
     private final Logger logger = LoggerFactory.getLogger(Preloader.class);
 
 
+    /**
+     * Initializes the project database by storing a new project
+     *
+     * @param projectService service, to store a new project
+     * @return The command line runner to let the bean run
+     */
     @Bean
     CommandLineRunner initDatabase(ProjectService projectService) {
         AllergenPerson bob =
