@@ -22,23 +22,41 @@ import java.util.List;
 
 /**
  * Representation of a project used by the controllers and the services
- * @param versionNumber The version number of the project (except for the image)
+ *
+ * @param versionNumber      The version number of the project (except for the image)
  * @param imageVersionNumber The version of the picture of the project
- * @param name Name of the project
- * @param id Online Id of the project (or 0 if the project doesn't have a online Id yet)
- * @param meals All meals within the project
- * @param startDate Start date of the project
- * @param endDate  Date when the project ends
- * @param allergenPeople All allergen people belonging to the project
- * @param recipes All recipes used in the project including their meal slots
- * @param unitConversions All unit conversions relevant for the project
+ * @param name               Name of the project
+ * @param id                 Online Id of the project (or 0 if the project doesn't have a online Id yet)
+ * @param meals              All meals within the project
+ * @param startDate          Start date of the project
+ * @param endDate            Date when the project ends
+ * @param allergenPeople     All allergen people belonging to the project
+ * @param recipes            All recipes used in the project including their meal slots
+ * @param unitConversions    All unit conversions relevant for the project
  * @param personNumberChange All changes of "eating" persons during the project
  */
- public record Project (long versionNumber, long imageVersionNumber, String name, long id, List<String> meals, Date startDate, Date endDate,
-                        List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes, List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange
-     ){
+public record Project(long versionNumber, long imageVersionNumber, String name, long id, List<String> meals,
+                      Date startDate, Date endDate,
+                      List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes,
+                      List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange
+) {
 
-     public Project(){
-         this(0,0,"",0,new ArrayList<>(),new Date(), new Date(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
-     }
- }
+    /**
+     * Representation of a project with default version und Id numbers
+     *
+     * @param name               Name of the project
+     * @param meals              All meals within the project
+     * @param startDate          Start date of the project
+     * @param endDate            Date when the project ends
+     * @param allergenPeople     All allergen people belonging to the project
+     * @param recipes            All recipes used in the project including their meal slots
+     * @param unitConversions    All unit conversions relevant for the project
+     * @param personNumberChange All changes of "eating" persons during the project
+     */
+    public Project(String name, List<String> meals, Date startDate, Date endDate,
+                   List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes,
+                   List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange) {
+        this(0, 0, name, 0, meals, startDate, endDate, allergenPeople, recipes, unitConversions, personNumberChange);
+    }
+
+}
