@@ -20,10 +20,18 @@ import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntity;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeEntityDTO;
 import com.scouts.kitchenplanerbackend.entities.recipe.RecipeStubDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
+    @Transactional
+    default Long updateImagePath(long recipeID, String path) {
+        updateImageUriById(path, recipeID);
+        increaseImageVersionById(recipeID);
+        return getImageVersionById(recipeID);
+    }
 
     @Query("select r.imageURI  from RecipeEntity r where r.id = :id")
     String getImageURIById(@Param("id") long id);
@@ -34,4 +42,32 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Query("select r from RecipeEntity r")
     RecipeEntityDTO getRecipeEntityBy(@Param("id") long id);
+
+    /**
+     * increases the  image version number for the recipe by one
+     * @param id ID of the requested recipe
+     */
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("update RecipeEntity r set r.imageVersion = (r.imageVersion + 1) where r.id = :id")
+    void increaseImageVersionById(@Param("id") Long id);
+
+    /**
+     * Updates the path to a recipe's image
+     * @param imageUri The new path
+     * @param id The id of the recipe
+     */
+    @Transactional
+    @Modifying
+    @Query("update RecipeEntity r set r.imageURI = ?1 where r.id = ?2")
+    void updateImageUriById(String imageUri, Long id);
+
+    /**
+     * Gets the image version number for a recipe
+     * @param id The id of the recipe
+     * @return The current image version number for the recipe
+     */
+    @Transactional
+    @Query("select r.imageVersion from RecipeEntity r where r.id = ?1")
+    Long getImageVersionById(Long id);
 }

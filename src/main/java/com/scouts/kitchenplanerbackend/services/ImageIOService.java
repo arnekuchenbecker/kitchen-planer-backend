@@ -18,6 +18,9 @@
 package com.scouts.kitchenplanerbackend.services;
 
 import com.scouts.kitchenplanerbackend.exceptions.ImageFileNotFoundException;
+import com.scouts.kitchenplanerbackend.repositories.projects.ProjectRepository;
+import com.scouts.kitchenplanerbackend.repositories.recipes.RecipeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,30 +35,42 @@ public class ImageIOService {
     private static final String PROJECT_DIRECTORY = "images/projects/";
     private static final String RECIPE_DIRECTORY = "images/recipes/";
 
-    public int saveProjectImage(MultipartFile image, Long projectID) throws IOException {
-        Path filePath = getFilePath(image.getOriginalFilename(), PROJECT_DIRECTORY);
+    private final ProjectRepository projectRepository;
+    private final RecipeRepository recipeRepository;
 
-        Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        // TODO - store fileName to the database for the correct project, update the image version
-
-        return 0;
+    @Autowired
+    public ImageIOService(
+            ProjectRepository projectRepository,
+            RecipeRepository recipeRepository
+    ) {
+        this.projectRepository = projectRepository;
+        this.recipeRepository = recipeRepository;
     }
 
-    public int saveRecipeImage(MultipartFile image, Long recipeID) throws IOException {
-        Path filePath = getFilePath(image.getOriginalFilename(), RECIPE_DIRECTORY);
+    public long saveProjectImage(MultipartFile image, Long projectID) throws IOException {
+        Path filePath = createFilePath(image.getOriginalFilename(), PROJECT_DIRECTORY);
 
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // TODO - store fileName to the database for the correct recipe, update the image version
+        String fileName = filePath.subpath(filePath.getNameCount() - 1, filePath.getNameCount()).toString();
 
-        return 0;
+        return projectRepository.updateImagePath(projectID, fileName);
+    }
+
+    public long saveRecipeImage(MultipartFile image, Long recipeID) throws IOException {
+        Path filePath = createFilePath(image.getOriginalFilename(), RECIPE_DIRECTORY);
+
+        Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        String fileName = filePath.subpath(filePath.getNameCount() - 1, filePath.getNameCount()).toString();
+
+        return recipeRepository.updateImagePath(recipeID, fileName);
     }
 
     public byte[] getProjectImage(Long projectID) throws ImageFileNotFoundException, IOException {
-        String imageName = "TODO"; // TODO - get fileName from database for the correct project
+        String imageName = projectRepository.getImageURIById(projectID);
 
-        Path filePath = getFilePath(imageName, PROJECT_DIRECTORY);
+        Path filePath = Path.of(PROJECT_DIRECTORY).resolve(imageName);
 
         if (Files.exists(filePath)) {
             return Files.readAllBytes(filePath);
@@ -65,9 +80,9 @@ public class ImageIOService {
     }
 
     public byte[] getRecipeImage(Long recipeID) throws ImageFileNotFoundException, IOException {
-        String imageName = "TODO"; // TODO - get fileName from database for the correct recipe
+        String imageName = recipeRepository.getImageURIById(recipeID);
 
-        Path filePath = getFilePath(imageName, RECIPE_DIRECTORY);
+        Path filePath = Path.of(RECIPE_DIRECTORY).resolve(imageName);
 
         if (Files.exists(filePath)) {
             return Files.readAllBytes(filePath);
@@ -77,9 +92,9 @@ public class ImageIOService {
     }
 
     public void deleteProjectImage(Long projectID) throws ImageFileNotFoundException, IOException {
-        String imageName = "TODO"; // TODO - get fileName from database for the correct project
+        String imageName = projectRepository.getImageURIById(projectID);
 
-        Path filePath = getFilePath(imageName, PROJECT_DIRECTORY);
+        Path filePath = Path.of(PROJECT_DIRECTORY).resolve(imageName);
 
         if (Files.exists(filePath)) {
             Files.delete(filePath);
@@ -89,9 +104,9 @@ public class ImageIOService {
     }
 
     public void deleteRecipeImage(Long recipeID) throws ImageFileNotFoundException, IOException {
-        String imageName = "TODO"; // TODO - get fileName from database for the correct recipe
+        String imageName = recipeRepository.getImageURIById(recipeID);
 
-        Path filePath = getFilePath(imageName, RECIPE_DIRECTORY);
+        Path filePath = Path.of(RECIPE_DIRECTORY).resolve(imageName);
 
         if (Files.exists(filePath)) {
             Files.delete(filePath);
@@ -100,7 +115,7 @@ public class ImageIOService {
         }
     }
 
-    private Path getFilePath(String name, String directory) throws IOException {
+    private Path createFilePath(String name, String directory) throws IOException {
         String fileName = UUID.randomUUID() + "_" + name;
 
         Path directoryPath = Path.of(directory);

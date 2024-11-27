@@ -20,12 +20,7 @@ import com.scouts.kitchenplanerbackend.exceptions.ImageFileNotFoundException;
 import com.scouts.kitchenplanerbackend.services.ImageIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
@@ -35,7 +30,8 @@ import java.io.IOException;
 /**
  * Controller class for up- and downloading images for both recipes and projects
  */
-@RestController("/media")
+@RestController
+@RequestMapping("/media")
 public class ImageController {
     private final ImageIOService imageIOService;
 
@@ -58,11 +54,11 @@ public class ImageController {
      * @throws IOException When saving the image fails for some reason
      */
     @PostMapping("/projects/{projectID}")
-    public ResponseEntity<Integer> uploadProjectPicture(
+    public ResponseEntity<Long> uploadProjectPicture(
             @PathVariable("projectID") Long projectID,
             @RequestPart("image") MultipartFile image
     ) throws IOException {
-        int newVersion = imageIOService.saveProjectImage(image, projectID);
+        long newVersion = imageIOService.saveProjectImage(image, projectID);
         return ResponseEntity.ok(newVersion);
     }
 
@@ -75,11 +71,11 @@ public class ImageController {
      * @throws IOException When saving the image fails for some reason
      */
     @PostMapping("/recipes/{recipeID}")
-    public ResponseEntity<Integer> uploadRecipePicture(
+    public ResponseEntity<Long> uploadRecipePicture(
             @PathVariable("recipeID") Long recipeID,
             @RequestPart("image") MultipartFile image
     ) throws IOException {
-        int newVersion = imageIOService.saveRecipeImage(image, recipeID);
+        long newVersion = imageIOService.saveRecipeImage(image, recipeID);
         return ResponseEntity.ok(newVersion);
     }
 
