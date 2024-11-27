@@ -16,6 +16,9 @@
 
 package com.scouts.kitchenplanerbackend.controller;
 
+import com.scouts.kitchenplanerbackend.exceptions.ImageFileNotFoundException;
+import com.scouts.kitchenplanerbackend.services.ImageIOService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,34 +28,88 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
+
+/**
+ * Controller class for up- and downloading images for both recipes and projects
+ */
 @RestController("/media")
 public class ImageController {
+    private final ImageIOService imageIOService;
 
-    @PostMapping("/upload/project")
-    public String uploadProjectPicture(@RequestHeader("userName") String userName,
-                                       @RequestPart("projectId") Long projectId,
-                                       @RequestPart("image") MultipartFile image) {
-        return "";
+    /**
+     * Creates a new ImageController
+     *
+     * @param imageIOService The service to be used for storing and loading the images
+     */
+    @Autowired
+    public ImageController(ImageIOService imageIOService) {
+        this.imageIOService = imageIOService;
     }
 
-    @PostMapping("/upload/recipe")
-    public String uploadRecipePicture(@RequestPart("recipeId") Long recipeId,
-                                      @RequestPart("image") MultipartFile image) {
-        return "";
+    /**
+     * Updates the image of the project with the given ID.
+     *
+     * @param projectID The ID of the project
+     * @param image     The new project image
+     * @return The updated image version number of the project
+     * @throws IOException When saving the image fails for some reason
+     */
+    @PostMapping("/projects/{projectID}")
+    public ResponseEntity<Integer> uploadProjectPicture(
+            @PathVariable("projectID") Long projectID,
+            @RequestPart("image") MultipartFile image
+    ) throws IOException {
+        int newVersion = imageIOService.saveProjectImage(image, projectID);
+        return ResponseEntity.ok(newVersion);
     }
 
-    @GetMapping("/projectpicture/{projectId}")
-    public ResponseEntity<byte[]> getProjectPicture(@RequestHeader("userName") String userName,
-                                                    @PathVariable("projectId") Long projectId) {
-        byte[] data = {1, 2, 4};
-        return ResponseEntity.ok(data);
+    /**
+     * Updates the image of the recipe with the given ID.
+     *
+     * @param recipeID The ID of the recipe
+     * @param image    The new recipe image
+     * @return The updated image version number of the recipe
+     * @throws IOException When saving the image fails for some reason
+     */
+    @PostMapping("/recipes/{recipeID}")
+    public ResponseEntity<Integer> uploadRecipePicture(
+            @PathVariable("recipeID") Long recipeID,
+            @RequestPart("image") MultipartFile image
+    ) throws IOException {
+        int newVersion = imageIOService.saveRecipeImage(image, recipeID);
+        return ResponseEntity.ok(newVersion);
     }
 
-    @GetMapping("/recipepicutre/{recipeId}")
-    public ResponseEntity<byte[]> getRecipePicture(@PathVariable("recipeId") Long recipeId) {
-        byte[] data = {1, 2, 4};
-        return ResponseEntity.ok(data);
+    /**
+     * Get the current image of the project with the given ID.
+     *
+     * @param projectID The ID of the project
+     * @return The project's image
+     * @throws IOException                When reading the image fails for some reason
+     * @throws ImageFileNotFoundException When no image exists matching the file name stored for the project
+     */
+    @GetMapping("/projects/{projectID}")
+    public ResponseEntity<byte[]> getProjectPicture(@PathVariable("projectID") Long projectID)
+            throws IOException, ImageFileNotFoundException {
+        byte[] image = imageIOService.getProjectImage(projectID);
+        return ResponseEntity.ok(image);
     }
 
+    /**
+     * Get the current image of the recipe with the given ID.
+     *
+     * @param recipeID The ID of the recipe
+     * @return The recipe's image
+     * @throws IOException                When reading the image fails for some reason
+     * @throws ImageFileNotFoundException When no image exists matching the file name stored for the recipe
+     */
+    @GetMapping("/recipes/{recipeID}")
+    public ResponseEntity<byte[]> getRecipePicture(@PathVariable("recipeID") Long recipeID)
+            throws IOException, ImageFileNotFoundException {
+        byte[] image = imageIOService.getRecipeImage(recipeID);
+        return ResponseEntity.ok(image);
+    }
 }

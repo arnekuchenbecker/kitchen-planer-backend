@@ -32,20 +32,24 @@ public class ImageIOService {
     private static final String PROJECT_DIRECTORY = "images/projects/";
     private static final String RECIPE_DIRECTORY = "images/recipes/";
 
-    public void saveProjectImage(MultipartFile image, Long projectID) throws IOException {
+    public int saveProjectImage(MultipartFile image, Long projectID) throws IOException {
         Path filePath = getFilePath(image.getOriginalFilename(), PROJECT_DIRECTORY);
 
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // TODO - store fileName to the database for the correct project, update the image version
+
+        return 0;
     }
 
-    public void saveRecipeImage(MultipartFile image, Long recipeID) throws IOException {
+    public int saveRecipeImage(MultipartFile image, Long recipeID) throws IOException {
         Path filePath = getFilePath(image.getOriginalFilename(), RECIPE_DIRECTORY);
 
         Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        // TODO - store fileName to the database for the correct recipe
+        // TODO - store fileName to the database for the correct recipe, update the image version
+
+        return 0;
     }
 
     public byte[] getProjectImage(Long projectID) throws ImageFileNotFoundException, IOException {
