@@ -64,3 +64,5 @@ out/
 hs_err_pid*
 replay_pid*
 
+# images from testing
+images/*
