@@ -12,20 +12,29 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.entities.recipe;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+@Getter
+@Setter
+@Entity
+public class RecipeEntity {
+    @Id
+    @Column(nullable = false)
+    private Long id;
+    private String name;
+    private String imageURI;
+    private String description;
+    @Column(nullable = false)
+    private int numberOfPeople;
 }
+
+

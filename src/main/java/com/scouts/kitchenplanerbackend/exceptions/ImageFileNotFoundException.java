@@ -14,18 +14,11 @@
  * GNU General Public License for more details.
  *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.exceptions;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
-
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+public class ImageFileNotFoundException extends Exception {
+    public ImageFileNotFoundException(String fileName, String usedFor) {
+        super("Could not find any image for a "+ usedFor +" with name " + fileName + ".");
+    }
 }

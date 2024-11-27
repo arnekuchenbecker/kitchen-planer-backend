@@ -12,20 +12,19 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.entities.recipe;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import lombok.Value;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
+import java.io.Serializable;
 
+/**
+ * DTO for {@link RecipeEntity}
+ */
+@Value
+public class RecipeStubDTO implements Serializable {
+    Long id;
+    String name;
 }

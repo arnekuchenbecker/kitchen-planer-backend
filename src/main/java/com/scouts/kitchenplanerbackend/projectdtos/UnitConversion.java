@@ -12,20 +12,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
-
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+/**
+ * Representation of the unit conversions used by the controllers and the services.
+ * @param startUnit From which unit the conversion starts
+ * @param endUnit To which unit the start unit is going to be converted
+ * @param ingredient for which ingredient the unit is used for
+ * @param factor How to convert the units into each other
+ */
+public record UnitConversion( String startUnit, String endUnit, String ingredient, double factor) {
 }

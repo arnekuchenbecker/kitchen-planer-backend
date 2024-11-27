@@ -12,20 +12,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.repositories.recipes;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import com.scouts.kitchenplanerbackend.entities.recipe.IngredientEntity;
+import com.scouts.kitchenplanerbackend.entities.recipe.IngredientID;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
+import java.util.Collection;
+
+public interface IngredientRepository extends JpaRepository<IngredientEntity, IngredientID> {
+
+    Collection<IngredientEntity> getIngredientEntitiesByRecipeId(long recipeId);
 
 }

@@ -12,20 +12,15 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.controller;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
-
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+/**
+ * DTO used for authentication and login
+ *
+ * @param username Name of the user
+ * @param password Password of the user
+ */
+public record AuthenticationDTO(String username, String password) {
 }

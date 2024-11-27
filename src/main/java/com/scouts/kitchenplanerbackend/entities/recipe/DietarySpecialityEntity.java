@@ -12,20 +12,34 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.entities.recipe;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
+@Getter
+@Setter
+@Entity
+@IdClass(DietarySpecialityEntityID.class)
+public class DietarySpecialityEntity {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    @Id
+    private RecipeEntity recipe;
+    @Id
+    private String speciality;
+
+    @Enumerated(EnumType.STRING)
+    private DietaryTypes type;
 
 }

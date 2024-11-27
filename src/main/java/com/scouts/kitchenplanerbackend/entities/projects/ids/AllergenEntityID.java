@@ -12,20 +12,28 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.entities.projects.ids;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import com.scouts.kitchenplanerbackend.entities.projects.AllergenPersonEntity;
+import com.scouts.kitchenplanerbackend.entities.projects.ProjectEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
+import java.io.Serializable;
 
+/**
+ * ID class for {@link com.scouts.kitchenplanerbackend.entities.projects.AllergenEntity}
+ */
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
+public class AllergenEntityID implements Serializable {
+    private ProjectEntity project;
+    private AllergenPersonEntity allergenPerson;
+    private String allergen;
 }

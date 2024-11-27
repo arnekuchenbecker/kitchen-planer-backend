@@ -12,20 +12,24 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.repositories;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import com.scouts.kitchenplanerbackend.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
+/**
+ * This repository provides access to all users which might be part of a project.
+ * </p>
+ * It contains the basic CRUD methods, like adding, deleting and writing without explicitly defining methods for those operations.
+ */
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
+    /**
+     * provides the database entry for a user queried by their name
+     * @param name The name of the user
+     * @return The database representation of the user.
+     */
+    UserEntity findByName(String name);
 }

@@ -12,20 +12,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.entities.recipe;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
-
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+public enum DietaryTypes {
+    FREE_OF,
+    TRACE,
+    ALLERGEN
 }

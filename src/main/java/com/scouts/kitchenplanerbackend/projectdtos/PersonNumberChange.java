@@ -12,20 +12,17 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  */
-package com.scouts.kitchenplanerbackend;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.scouts.kitchenplanerbackend.projectdtos;
 
-@SpringBootTest
-class KitchenPlanerBackendApplicationTests {
+import java.util.Date;
 
-	@Test
-	void contextLoads() {
-        Assertions.assertTrue(true);
-	}
-
+/**
+ *  Representation of the change of persons who are there before the meal slot used by the controller and services
+ * @param date The date of the meal slot
+ * @param meal The meal on the date
+ * @param differenceBefore The change before the meal happens
+ */
+public record PersonNumberChange(Date date, String meal, int differenceBefore) {
 }

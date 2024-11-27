@@ -1,7 +1,24 @@
+/*
+ * KitchenPlanerApp is the android app frontend for the KitchenPlaner, a tool
+ * to cooperatively plan a meal plan for a campout.
+ * Copyright (C) 2023-2024 Arne Kuchenbecker, Antonia Heiming, Anton Kadelbach, Sandra Lanz
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
 plugins {
 	java
 	war
-	id("org.springframework.boot") version "3.2.0"
+	id("org.springframework.boot") version "3.2.6"
 	id("io.spring.dependency-management") version "1.1.4"
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
@@ -33,6 +50,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-web-services")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
