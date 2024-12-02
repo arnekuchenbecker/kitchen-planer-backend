@@ -19,11 +19,13 @@ package com.scouts.kitchenplanerbackend.controller;
 import com.scouts.kitchenplanerbackend.exceptions.ImageFileNotFoundException;
 import com.scouts.kitchenplanerbackend.services.ImageIOService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -88,10 +90,14 @@ public class ImageController {
      * @throws ImageFileNotFoundException When no image exists matching the file name stored for the project
      */
     @GetMapping("/projects/{projectID}")
-    public ResponseEntity<byte[]> getProjectPicture(@PathVariable("projectID") Long projectID)
+    public ResponseEntity<Resource> getProjectPicture(@PathVariable("projectID") Long projectID)
             throws IOException, ImageFileNotFoundException {
         byte[] image = imageIOService.getProjectImage(projectID);
-        return ResponseEntity.ok(image);
+        ByteArrayResource resource = new ByteArrayResource(image);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentLength(resource.contentLength())
+                .body(resource);
     }
 
     /**
@@ -103,9 +109,13 @@ public class ImageController {
      * @throws ImageFileNotFoundException When no image exists matching the file name stored for the recipe
      */
     @GetMapping("/recipes/{recipeID}")
-    public ResponseEntity<byte[]> getRecipePicture(@PathVariable("recipeID") Long recipeID)
+    public ResponseEntity<Resource> getRecipePicture(@PathVariable("recipeID") Long recipeID)
             throws IOException, ImageFileNotFoundException {
-        byte[] image = imageIOService.getRecipeImage(recipeID);
-        return ResponseEntity.ok(image);
+        byte[] image = imageIOService.getProjectImage(recipeID);
+        ByteArrayResource resource = new ByteArrayResource(image);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentLength(resource.contentLength())
+                .body(resource);
     }
 }
