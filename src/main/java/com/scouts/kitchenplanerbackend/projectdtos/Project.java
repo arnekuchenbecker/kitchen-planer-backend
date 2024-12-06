@@ -39,12 +39,4 @@ public record Project(long versionNumber, long imageVersionNumber, String name, 
                       Date startDate, Date endDate,
                       List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes,
                       List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange
-) {
-
-    /**
-     * Creates a new project with default parameters
-     */
-    public Project() {
-        this(0, 0, "", 0, new ArrayList<>(), new Date(), new Date(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
-}
+) {}
