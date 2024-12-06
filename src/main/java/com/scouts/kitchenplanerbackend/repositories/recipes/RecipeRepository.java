@@ -26,6 +26,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
+    /**
+     * Updates the path to a recipe's image, increasing the image version number of the recipe
+     * @param recipeID The ID of the recipe
+     * @param path The new path to the recipe's image
+     * @return The updated version number of the recipe
+     */
     @Transactional
     default Long updateImagePath(long recipeID, String path) {
         updateImageUriById(path, recipeID);
@@ -56,7 +62,10 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
      * Updates the path to a recipe's image
      * @param imageUri The new path
      * @param id The id of the recipe
+     * @deprecated Changing the image path should always be accompanied by incrementing the recipe's image version
+     *             number. Use updateImagePath instead
      */
+    @Deprecated
     @Transactional
     @Modifying
     @Query("update RecipeEntity r set r.imageURI = ?1 where r.id = ?2")
