@@ -19,6 +19,7 @@ package com.scouts.kitchenplanerbackend.controller;
 
 import com.scouts.kitchenplanerbackend.entities.projects.ProjectStubDTO;
 import com.scouts.kitchenplanerbackend.projectdtos.Project;
+import com.scouts.kitchenplanerbackend.services.ProjectOrganisationService;
 import com.scouts.kitchenplanerbackend.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ import java.util.Collection;
 @RequestMapping("/projects")
 public class ProjectController {
     private final ProjectService projectService;
+    private final ProjectOrganisationService metadataService;
 
     /**
      * Creates a new Controller
@@ -41,8 +43,9 @@ public class ProjectController {
      * @param projectService The service used for fulfilling the queries
      */
     @Autowired
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ProjectOrganisationService metadataService) {
         this.projectService = projectService;
+        this.metadataService = metadataService;
     }
 
     /**
@@ -104,5 +107,12 @@ public class ProjectController {
     public ResponseEntity<Collection<ProjectStubDTO>> getStubsForUsername(@RequestParam String user) {
         Collection<ProjectStubDTO> stubs = projectService.getProjectStubs(user);
         return ResponseEntity.ok(stubs);
+    }
+
+    @GetMapping("/{id}/versions")
+    public ResponseEntity<VersionNumberDTO> getVersionNumbersForProject(@PathVariable long id) {
+        long projectVersion = metadataService.getCurrentProjectDataVersion(id);
+        long imageVersion = metadataService.getCurrentProjectImageVersion(id);
+        return ResponseEntity.ok(new VersionNumberDTO(projectVersion, imageVersion));
     }
 }
