@@ -39,4 +39,24 @@ public record Project(long versionNumber, long imageVersionNumber, String name, 
                       Date startDate, Date endDate,
                       List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes,
                       List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange
-) {}
+) {
+
+    /**
+     * Representation of a project with default version und Id numbers
+     *
+     * @param name               Name of the project
+     * @param meals              All meals within the project
+     * @param startDate          Start date of the project
+     * @param endDate            Date when the project ends
+     * @param allergenPeople     All allergen people belonging to the project
+     * @param recipes            All recipes used in the project including their meal slots
+     * @param unitConversions    All unit conversions relevant for the project
+     * @param personNumberChange All changes of "eating" persons during the project
+     */
+    public Project(String name, List<String> meals, Date startDate, Date endDate,
+                   List<AllergenPerson> allergenPeople, List<RecipeForProject> recipes,
+                   List<UnitConversion> unitConversions, List<PersonNumberChange> personNumberChange) {
+        this(0, 0, name, 0, meals, startDate, endDate, allergenPeople, recipes, unitConversions, personNumberChange);
+    }
+
+}
