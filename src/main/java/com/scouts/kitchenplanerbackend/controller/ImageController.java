@@ -87,7 +87,7 @@ public class ImageController {
      * @param projectID The ID of the project
      * @return The project's image
      * @throws IOException                When reading the image fails for some reason
-     * @throws ImageFileNotFoundException When no image exists matching the file name stored for the project
+     * @throws ImageFileNotFoundException When no image exists matching the file name stored in the project
      */
     @GetMapping("/projects/{projectID}")
     public ResponseEntity<Resource> getProjectPicture(@PathVariable("projectID") Long projectID)
