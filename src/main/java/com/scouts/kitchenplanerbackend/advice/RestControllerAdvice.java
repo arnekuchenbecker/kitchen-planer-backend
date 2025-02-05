@@ -44,7 +44,7 @@ public class RestControllerAdvice {
      * Handles IllegalArgumentExceptions
      *
      * @param ex The exception that should be handled
-     * @return A response entity with HTTP status code 400 and a body containing the exception's message
+     * @return A response entity with HTTP status code 400 and a body containg the exception's message
      */
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {

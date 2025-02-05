@@ -36,37 +36,40 @@ public class ProjectOrganisationService {
 
     /**
      * Initializes the needed repositories
+     *
      * @param projectRepository Database access for projects
-     * @param userRepository Database access for users of the app
+     * @param userRepository    Database access for users of the app
      */
     @Autowired
-    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository){
+    ProjectOrganisationService(final ProjectRepository projectRepository, final UserRepository userRepository) {
         this.projectRepo = projectRepository;
         this.userRepo = userRepository;
     }
 
     /**
      * Provides an invitation link for the project with the given projectID
+     *
      * @param projectId ID of the project to join
      * @return The requested invitation Link
      */
-    public String getInvitationLink(long projectId){
+    public String getInvitationLink(long projectId) {
         return ""; //TODO create invitation link;
     }
+
     /**
      * The user joins the project.
      *
      * @param invitationLink Link that covers the projectID
-     * @param username Unique identifier of the user
+     * @param username       Unique identifier of the user
      * @return The projectID of the joined project or 0 if the joining was not successful
      */
     @Transactional
-    public long joinProject(String invitationLink, String username){
+    public long joinProject(String invitationLink, String username) {
         UserEntity user = userRepo.findByName(username);
         long projectID = 0; // TODO find which projectID belongs to the invitation link
 
-        if (projectRepo.existsByParticipants_IdAndId(projectID, user.getId())){
-           return projectID;
+        if (projectRepo.existsByParticipants_IdAndId(projectID, user.getId())) {
+            return projectID;
         }
         projectRepo.findParticipantsById(projectID).add(user);
         projectRepo.findById(projectID).ifPresent(projectRepo::save);
@@ -77,25 +80,35 @@ public class ProjectOrganisationService {
      * Leaving a specified project
      *
      * @param projectID ID of the project the user wants to leave
-     * @param username Unique identifier of the user
+     * @param username  Unique identifier of the user
      */
     @Transactional
-    public void leaveProject(long projectID, String username){
+    public void leaveProject(long projectID, String username) {
         UserEntity user = userRepo.findByName(username);
         projectRepo.findParticipantsById(projectID).remove(user);
         projectRepo.findById(projectID).ifPresent(projectRepo::save);
-        if ( projectRepo.countMembersById(projectID) < 1){
+        if (projectRepo.countMembersById(projectID) < 1) {
             projectRepo.findById(projectID).ifPresent(projectRepo::delete);
         }
     }
 
     /**
-     * Provides the current version of the given project
-     * @param projectId ID for the project
+     * Provides the current data version of the given project
      *
-     * @return The version number of the project
+     * @param projectId ID for the project
+     * @return The data version number of the project
      */
-    public long getCurrentProjectVersion(long projectId){
+    public long getCurrentProjectDataVersion(long projectId) {
         return projectRepo.getReferenceById(projectId).getProjectVersion();
+    }
+
+    /**
+     * Provides the current image version of the given project
+     *
+     * @param projectId ID for the project
+     * @return The image version number of the project
+     */
+    public long getCurrentProjectImageVersion(long projectId) {
+        return projectRepo.getReferenceById(projectId).getImageVersion();
     }
 }
