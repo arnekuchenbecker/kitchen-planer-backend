@@ -35,6 +35,8 @@ public class RecipeEntity {
     private String description;
     @Column(nullable = false)
     private int numberOfPeople;
+    private Long imageVersion = 0L;
+    private Long recipeVersion = 0L;
 }
 
 

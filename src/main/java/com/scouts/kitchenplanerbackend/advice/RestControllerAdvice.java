@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
@@ -30,20 +32,43 @@ import java.util.NoSuchElementException;
 public class RestControllerAdvice {
     /**
      * Handles NoSuchElementExceptions
+     *
      * @return A response entity with HTTP status code 404 and no body.
      */
-    @ExceptionHandler({ NoSuchElementException.class })
+    @ExceptionHandler({NoSuchElementException.class})
     public ResponseEntity<Void> handleNoSuchElement() {
         return ResponseEntity.notFound().build();
     }
 
     /**
      * Handles IllegalArgumentExceptions
+     *
      * @param ex The exception that should be handled
      * @return A response entity with HTTP status code 400 and a body containg the exception's message
      */
-    @ExceptionHandler({ IllegalArgumentException.class })
+    @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    /**
+     * Handles FileNotFoundExceptions
+     *
+     * @return A response entity with HTTP status code 404 and no body.
+     */
+    @ExceptionHandler({FileNotFoundException.class})
+    public ResponseEntity<Void> handleFileNotFoundException() {
+        return ResponseEntity.notFound().build();
+    }
+
+    /**
+     * Handles IOExceptions
+     *
+     * @param ex The exception that should be handled
+     * @return A response with the HTTP status code 500 and a body containing the exception's message
+     */
+    @ExceptionHandler({IOException.class})
+    public ResponseEntity<String> handleIOException(IOException ex) {
+        return ResponseEntity.internalServerError().body(ex.getMessage());
     }
 }

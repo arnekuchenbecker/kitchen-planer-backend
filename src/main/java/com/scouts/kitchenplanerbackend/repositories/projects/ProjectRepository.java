@@ -35,6 +35,18 @@ import java.util.Date;
  */
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
+    /**
+     * Updates the path to a projects image, increasing the image version number of the project
+     * @param projectID The ID of the project
+     * @param path The new path to the project's image
+     * @return The updated version number of the project
+     */
+    @Transactional
+    default Long updateImagePath(long projectID, String path) {
+        updateImageUriById(path, projectID);
+        increaseImageVersionById(projectID);
+        return getImageVersionById(projectID);
+    }
 
     /**
      * Provides the image URI for a project
@@ -104,4 +116,26 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update ProjectEntity p set p.imageVersion = (p.imageVersion +1) where p.id = :id")
     void increaseImageVersionById(@Param("id") Long id);
+
+    /**
+     * Updates the path to a project's image
+     * @param imageUri The new path
+     * @param id The id of the project
+     * @deprecated Changing the image path should always be accompanied by incrementing the project's image version
+     *             number. Use updateImagePath instead
+     */
+    @Deprecated
+    @Transactional
+    @Modifying
+    @Query("update ProjectEntity p set p.imageUri = ?1 where p.id = ?2")
+    void updateImageUriById(String imageUri, Long id);
+
+    /**
+     * Gets the image version number for a project
+     * @param id The id of the project
+     * @return The current image version number for the project
+     */
+    @Transactional
+    @Query("select p.imageVersion from ProjectEntity p where p.id = ?1")
+    Long getImageVersionById(Long id);
 }
