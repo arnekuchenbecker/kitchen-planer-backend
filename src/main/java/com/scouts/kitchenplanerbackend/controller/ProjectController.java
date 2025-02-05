@@ -109,6 +109,13 @@ public class ProjectController {
         return ResponseEntity.ok(stubs);
     }
 
+    /**
+     * Returns a DTO containing the version numbers for both the data and the image of the project corresponging to the
+     * given id
+     * @param id The ID of the project for which the version numbers are queried
+     * @return A response entity containing both the data and the image version number of the requested project. Returns
+     *         HTTP status code 200 on success.
+     */
     @GetMapping("/{id}/versions")
     public ResponseEntity<VersionNumberDTO> getVersionNumbersForProject(@PathVariable long id) {
         long projectVersion = metadataService.getCurrentProjectDataVersion(id);
